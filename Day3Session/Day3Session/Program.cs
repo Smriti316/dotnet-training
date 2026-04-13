@@ -244,3 +244,170 @@ for(int i = 1; i <= 10; i++)
     Console.WriteLine(i); // Print odd numbers
 }
 */
+
+
+
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("******************  Practice Session  *******************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.ResetColor();
+
+
+
+// 1. Write a program that prints a multiplication table for any number entered by the user (e.g., 7 × 1
+// through 7 × 10).
+//Solution:
+/*
+Console.WriteLine("--- Multiplication Table (For Loop) ---");
+Console.WriteLine("Enter a number to print its multiplication table:");
+int number = int.Parse(Console.ReadLine());
+Console.WriteLine($"Multiplication Table for {number}:");
+for(int i = 1; i <= 10; i++)
+{
+    Console.WriteLine($"{number} x {i} = {number * i}");
+}
+*/
+
+// 2. Use a switch statement: ask the user to enter a season number (1=Spring, 2=Summer, 3=Autumn,
+// 4=Winter) and print the season name and its typical activities.
+//Solution:
+/*
+Console.WriteLine("--- Season Check (Switch Statement) ---");
+Console.Write("Enter a month number (1-12): ");
+
+int month = int.Parse(Console.ReadLine());
+string season = "";
+
+// Using the switch statement to determine the season
+switch (month)
+{
+    case 12: // December
+    case 1:  // January
+    case 2:  // February
+        season = "Winter";
+        break;
+    case 3:  // March
+        season = "Spring";
+        break;
+    case 4:  // April
+    case 5:  // May
+    case 6:  // June
+        season = "Spring/Summer Transition";
+        break;
+    case 7:  // July
+    case 8:  // August
+    case 9:  // September
+        season = "Summer/Autumn Transition";
+        break;
+    case 10: // October
+    case 11: // November
+        season = "Autumn/Winter Transition";
+        break;
+    default:
+        season = "Invalid month number entered.";
+        break;
+}
+Console.WriteLine($"\nThe month number {month} typically falls during {season}.");
+*/
+
+// 3. Use a while loop to simulate a bank ATM: start with a balance of Rs 10,000. Let the user withdraw
+// money repeatedly until the balance is 0 or they choose to exit.
+//Solution:
+/*
+Console.WriteLine("--- ATM Simulation (Do-While Loop) ---");
+double balance = 5000.00;
+Console.WriteLine($"Welcome! Initial Balance: ${balance:N2}");
+
+// Use a do-while loop to keep running until the balance hits zero
+bool running = true;
+
+do
+{
+    Console.WriteLine("\n---------------------------------");
+    Console.WriteLine("Please select an option:");
+    Console.WriteLine("1. Check Balance");
+    Console.WriteLine("2. Withdraw Money");
+    Console.WriteLine("3. Exit ATM");
+    Console.Write("Enter choice (1, 2, or 3): ");
+
+    string choice = Console.ReadLine();
+
+    switch (choice)
+    {
+        case "1":
+            Console.WriteLine($"\n[INFO] Your current balance is: ${balance:N2}");
+            break;
+
+        case "2":
+            Console.Write("Enter amount to withdraw: $");
+            if (double.TryParse(Console.ReadLine(), out double amount) && amount > 0)
+            {
+                if (amount > balance)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\n[ERROR] Insufficient funds. Withdrawal cancelled.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    balance -= amount;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\n[SUCCESS] Withdrew ${amount:N2}. New Balance: ${balance:N2}");
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n[ERROR] Invalid amount entered.");
+                Console.ResetColor();
+            }
+            break;
+
+        case "3":
+            Console.WriteLine("\nThank you for using the ATM. Goodbye!");
+            running = false;
+            break;
+
+        default:
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n[ERROR] Invalid option. Please try again.");
+            Console.ResetColor();
+            break;
+    }
+} while (running && balance > 0);
+*/
+
+
+
+
+// 4. Print all numbers from 1 to 100 that are divisible by both 3 and 5 using a for loop and the modulus
+// operator.
+//Solution:
+/*
+Console.WriteLine("--- Numbers divisible by both 3 AND 5 (between 1 and 100) ---");
+Console.WriteLine("--------------------------------------------------------------------");
+
+for (int i = 1; i <= 100; i++)
+{
+    // if(i % 3 == 0)
+    // {
+    //     if(i % 5 == 0)
+    //     {
+    //         Console.WriteLine(i);
+    //     }
+    // }
+
+    if (i % 3 == 0 && i % 5 == 0)
+    {
+        Console.WriteLine(i);
+    }
+}
+*/
+
+
+
