@@ -82,5 +82,31 @@ namespace MyNamespace
 */
 
 
+//Recursion
+/*using MyNamespace;
+
+Maths maths = new Maths();
+long factorialValue = maths.Factorial(5);
+Console.WriteLine(factorialValue);
+//5! = 5 * 4 * 3 * 2 * 1
+namespace MyNamespace
+{
+    public class Maths
+    {
+        public long Factorial(int n)
+        {
+            if (n<=1)
+            {
+                return 1;
+            }
+            else
+            {
+                return n * Factorial(n - 1);
+            }
+        }
+    }
+}
+*/
+
 
 
