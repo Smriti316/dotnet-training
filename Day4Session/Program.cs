@@ -135,3 +135,24 @@ public class Maths
     }   
 }
 */
+
+
+
+//************************************ Practice Session ************************************//
+
+/*
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("******************  Practice Session  *******************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.ResetColor();
+*/
+
+
+//************************************************************************************* Practice Problems *********************************************************************// 
+//1.⁠ ⁠Write a method 'int Square(int n)' that returns n squared. Call it from Main.
+//2.⁠ ⁠Write an overloaded method 'string Describe(int n)' and 'string Describe(double n)' — each returns a sentence describing the number.
+//3.⁠ ⁠Write a recursive method 'int SumUpTo(int n)' that returns the sum of all numbers from 1 to n. Verify: SumUpTo(5) = 15.
+//4.⁠ ⁠Write a method that takes a string and uses a for loop to count how many vowels (a, e, i, o, u) it contains. Return that count.

@@ -268,6 +268,7 @@ Console.ResetColor();
 
 
 //************************************************************************************* Practice Problems *********************************************************************// 
+
 //1. Write a program that prints a multiplication table for any number entered by the user (e.g., 7 × 1 through 7 × 10).
 //Solution:
 /*
