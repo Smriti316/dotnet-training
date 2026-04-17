@@ -39,7 +39,7 @@ public class Program
     // This method simulates an action that must always clean up its resources.
     public static void RunProcessing(string scenarioName, int numerator, int denominator)
     {
-        // 💡 Concept: This string simulates a resource we are using (like a file or a database connection).
+        // Concept: This string simulates a resource we are using (like a file or a database connection).
         string resourceStatus = "System connection established (We're ready to go!)"; 
         
         Console.WriteLine("\n===========================================================");
@@ -353,6 +353,503 @@ public class Painter : IWorker, IWorkers
     public void BShowUpOnTime()
     {
         throw new NotImplementedException();
+    }
+}
+*/
+
+//************************************ Practice Session ************************************//
+
+/*
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("******************  Practice Session  *******************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.ResetColor();
+*/
+
+
+//************************************************************************************* Practice Problems *********************************************************************// 
+//1.⁠ ⁠Create a program that takes user input for age and throws a custom exception if age is less than 18, then handle it gracefully.
+/*
+--- Key Concepts Used ---
+1. Custom Exception (AgeUnderageException): Allows us to define specific, domain-related errors (e.g., "User is underage") separate from standard .NET exceptions (like ArgumentException).
+2. try-catch: Provides a safe region of code (try) and specifies exactly what to do (catch) when certain expected errors occur.
+3. Hierarchy: We catch specific exceptions (AgeUnderageException, FormatException) first, and then a general 'Exception' as a fallback.
+*/
+
+//Solution:
+/*
+public class AgeUnderageException : Exception
+{
+    public AgeUnderageException(string message) : base(message) { }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("--- Age Validator Program ---");
+        Console.Write("Please enter your age: ");
+        string input = Console.ReadLine();
+
+        try
+        {
+            // Attempt to parse the input and run the business logic
+            int age = int.Parse(input);
+            CheckAge(age);
+            Console.WriteLine("\nSUCCESS: Age is valid. Access granted.");
+        }
+        catch (FormatException)
+        {
+            // Handle non-integer input
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n[INPUT ERROR] Please enter a valid numerical age.");
+            Console.ResetColor();
+        }
+        catch (AgeUnderageException ex)
+        {
+            // Handle the custom business rule exception
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n[ACCESS DENIED] {ex.Message}");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            // Handle any unexpected exceptions
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\n[FATAL ERROR] An unexpected error occurred: {ex.Message}");
+            Console.ResetColor();
+        }
+    }
+
+    // Function containing the business logic
+    public static void CheckAge(int age)
+    {
+        if (age < 18)
+        {
+            // Throw the custom exception when the rule is violated
+            throw new AgeUnderageException("You must be 18 years or older to proceed.");
+        }
+        // If the code reaches here, the age is valid
+    }
+}
+*/
+
+
+//2.⁠ ⁠Write a program with an Animal class and derived classes (Dog, Cat) where each overrides a sound() method and test polymorphism with a loop.
+//Solution:
+/*
+public class Animal
+{
+    public string Name { get; set; }
+
+    public Animal(string name)
+    {
+        Name = name;
+    }
+
+    // Use 'virtual' to allow derived classes to change the behavior.
+    public virtual void Sound()
+    {
+        Console.WriteLine($"{Name} makes a generic sound.");
+    }
+}
+
+// Derived Class 1
+public class Dog : Animal
+{
+    public Dog(string name) : base(name) { }
+
+    // Use 'override' to provide the specific implementation.
+    public override void Sound()
+    {
+        Console.WriteLine($"{Name} says: Woof! Woof!");
+    }
+}
+
+// Derived Class 2
+public class Cat : Animal
+{
+    public Cat(string name) : base(name) { }
+
+    public override void Sound()
+    {
+        Console.WriteLine($"{Name} says: Meowww...");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("--- Animal Soundboard Program ---");
+
+        // Create a list of the base type (Animal), but storing different derived types.
+        List<Animal> zoo = new List<Animal>();
+        zoo.Add(new Dog("Buddy"));
+        zoo.Add(new Cat("Whiskers"));
+        zoo.Add(new Dog("Rover"));
+
+        Console.WriteLine("Let's hear the sounds:");
+
+        foreach (var animal in zoo)
+        {
+            animal.Sound();
+        }
+    }
+}
+*/
+
+
+//3.⁠ ⁠Design an abstract class Shape with an abstract method calculateArea() 
+//and create concrete classes Circle and Rectangle that implement it.
+//Solution:
+/*
+public abstract class Shape
+{
+    // Abstract method: Must be implemented by all concrete subclasses.
+    public abstract double CalculateArea();
+}
+
+// Concrete Class 1
+public class Circle : Shape
+{
+    private double Radius { get; set; }
+
+    public Circle(double radius)
+    {
+        Radius = radius;
+    }
+
+    // Implementation for the abstract method.
+    public override double CalculateArea()
+    {
+        return Math.PI * Math.Pow(Radius, 2);
+    }
+}
+
+// Concrete Class 2
+public class Rectangle : Shape
+{
+    private double Width { get; set; }
+    private double Height { get; set; }
+
+    public Rectangle(double width, double height)
+    {
+        Width = width;
+        Height = height;
+    }
+
+    // Implementation for the abstract method.
+    public override double CalculateArea()
+    {
+        return Width * Height;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("--- Shape Area Calculator ---");
+
+        // We instantiate objects directly and demonstrate the methods sequentially.
+        Shape circle = new Circle(5.0);
+        Shape rectangle = new Rectangle(4.0, 6.0);
+        
+        // Demonstration 1: Calculate Circle Area
+        double circleArea = circle.CalculateArea();
+        Console.WriteLine($"Circle Area (Radius 5): {circleArea:F2}");
+
+        // Demonstration 2: Calculate Rectangle Area
+        double rectArea = rectangle.CalculateArea();
+        Console.WriteLine($"Rectangle Area (4x6): {rectArea:F2}");
+    }
+}
+*/
+
+
+//4.⁠ ⁠Create a bank system where withdraw() method throws custom exceptions (InsufficientFunds, InvalidAmount) for different account types (SavingsAccount, CurrentAccount).
+//Solution:
+
+/*
+public class InvalidAmountException : Exception
+{
+    public InvalidAmountException(string message) : base(message) { }
+}
+
+public class InsufficientFundsException : Exception
+{
+    public InsufficientFundsException(string message) : base(message) { }
+}
+
+// 2. Abstract Base Class
+public abstract class Account
+{
+    public double Balance { get; protected set; }
+    public string AccountType { get; protected set; }
+
+    public Account(double initialBalance, string type)
+    {
+        Balance = initialBalance;
+        AccountType = type;
+    }
+
+    // Abstract method: Ensures all derived accounts MUST implement withdrawal logic.
+    public abstract bool Withdraw(double amount);
+    
+    public void DisplayBalance()
+    {
+        Console.WriteLine($"[Type: {AccountType}] Current Balance: {Balance:C}");
+    }
+}
+
+// Concrete Class 1: Savings Account
+public class SavingsAccount : Account
+{
+    public SavingsAccount(double initialBalance) : base(initialBalance, "Savings") { }
+
+    public override bool Withdraw(double amount)
+    {
+        if (amount <= 0)
+        {
+            throw new InvalidAmountException("Withdrawal amount must be positive.");
+        }
+        if (amount > Balance)
+        {
+            throw new InsufficientFundsException("Savings Account: Funds are insufficient for this withdrawal.");
+        }
+        
+        Balance -= amount;
+        Console.WriteLine("-> Withdrawal successful from Savings Account.");
+        return true;
+    }
+}
+
+// Concrete Class 2: Current Account
+public class CurrentAccount : Account
+{
+    public CurrentAccount(double initialBalance) : base(initialBalance, "Current") { }
+
+    public override bool Withdraw(double amount)
+    {
+        if (amount <= 0)
+        {
+            throw new InvalidAmountException("Withdrawal amount must be positive.");
+        }
+        if (amount > Balance)
+        {
+            throw new InsufficientFundsException("Current Account: Insufficient funds for withdrawal.");
+        }
+        
+        Balance -= amount;
+        Console.WriteLine("-> Withdrawal successful from Current Account.");
+        return true;
+    }
+}
+
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("--- Banking System Demo ---");
+
+        Account savings = new SavingsAccount(1500.00);
+        Account current = new CurrentAccount(500.00);
+
+        // Test Case 1: Successful Withdrawal
+        Console.WriteLine("\n--- 1. Testing Successful Withdrawal (Savings) ---");
+        TryWithdraw(savings, 300.00);
+
+        // Test Case 2: Insufficient Funds
+        Console.WriteLine("\n--- 2. Testing Insufficient Funds (Current) ---");
+        TryWithdraw(current, 1000.00);
+
+        // Test Case 3: Invalid Amount (Zero)
+        Console.WriteLine("\n--- 3. Testing Invalid Amount (Savings) ---");
+        TryWithdraw(savings, 0.00);
+        
+        Console.WriteLine("\n=========================================");
+        Console.WriteLine("Program End.");
+        savings.DisplayBalance();
+        current.DisplayBalance();
+    }
+
+    public static void TryWithdraw(Account account, double amount)
+    {
+        try
+        {
+            if (account.Withdraw(amount))
+            {
+                Console.WriteLine($"[STATUS] Remaining Balance: {account.Balance:C}");
+            }
+        }
+        catch (InvalidAmountException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"[FAILURE] Invalid Transaction: {ex.Message}");
+            Console.ResetColor();
+        }
+        catch (InsufficientFundsException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[FAILURE] Transaction Denied: {ex.Message}");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"[CRITICAL ERROR] An unknown error occurred: {ex.Message}");
+            Console.ResetColor();
+        }
+    }
+}
+*/
+
+
+//5.⁠ ⁠Build a payment system with an abstract Payment class and derived classes (CreditCard, UPI, Cash) where each implements processPayment() with proper exception handling for invalid inputs.
+
+/*
+public abstract class Payment
+{
+    public string PaymentMethod { get; private set; }
+
+    public Payment(string method)
+    {
+        PaymentMethod = method;
+    }
+
+    // Abstract method: Every payment method MUST implement this logic.
+    public abstract bool ProcessPayment(double amount);
+}
+
+// 2. Concrete Implementation 1: Credit Card
+public class CreditCard : Payment
+{
+    public CreditCard() : base("Credit Card") { }
+
+    public override bool ProcessPayment(double amount)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException("Payment amount must be greater than zero.");
+        }
+        
+        Console.WriteLine($"\n[{PaymentMethod}]: Attempting to process ${amount:F2}...");
+        // Simulate payment gateway validation
+        if (amount > 10000) 
+        {
+            throw new InvalidOperationException("Credit card payment limit exceeded for this transaction.");
+        }
+        
+        Console.WriteLine($"   -> SUCCESS: Payment of ${amount:F2} processed successfully via {PaymentMethod}.");
+        return true;
+    }
+}
+
+// 3. Concrete Implementation 2: UPI
+public class UPI : Payment
+{
+    public UPI() : base("UPI") { }
+
+    public override bool ProcessPayment(double amount)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException("Payment amount must be greater than zero.");
+        }
+
+        Console.WriteLine($"\n[{PaymentMethod}]: Initiating payment of ${amount:F2}...");
+        // Simulate mandatory UPI validation
+        if (amount < 1.00)
+        {
+            throw new Exception("UPI transaction requires a minimum payment of $1.00.");
+        }
+        
+        Console.WriteLine($"   -> SUCCESS: Payment of ${amount:F2} processed successfully via {PaymentMethod}.");
+        return true;
+    }
+}
+
+// 4. Concrete Implementation 3: Cash
+public class Cash : Payment
+{
+    public Cash() : base("Cash") { }
+
+    public override bool ProcessPayment(double amount)
+    {
+        if (amount <= 0)
+        {
+            throw new ArgumentException("Payment amount must be greater than zero.");
+        }
+        
+        Console.WriteLine($"\n[{PaymentMethod}]: Handing over ${amount:F2} cash...");
+        // Simulate input validation
+        if (amount > 5000)
+        {
+             throw new InvalidOperationException("Large cash transactions require physical receipts.");
+        }
+
+        Console.WriteLine($"   -> SUCCESS: ${amount:F2} received and accepted via {PaymentMethod}.");
+        return true;
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        Console.WriteLine("===== Payment Gateway System Demo =====");
+
+        // Instantiate the payment methods individually to demonstrate polymorphism 
+        // upcasting
+        Payment creditCard = new CreditCard();
+        Payment upi = new UPI();
+        Payment cash = new Cash();
+
+        // --- Test 1: Normal Transactions ---
+        Console.WriteLine("\n\n*** Running successful payments ***");
+        ProcessPayment(creditCard, 75.50); 
+        ProcessPayment(upi, 10.00); 
+        ProcessPayment(cash, 200.00); 
+
+        // --- Test 2: Exception Handling (Amount too low) ---
+        Console.WriteLine("\n\n*** Running failure test (Too Low Amount) ***");
+        ProcessPayment(upi, 0.50); 
+
+        // --- Test 3: Exception Handling (Too High/Invalid Input) ---
+        Console.WriteLine("\n\n*** Running failure test (Invalid Input) ***");
+        ProcessPayment(creditCard, 15000.00); 
+    }
+
+    // This function receives any Payment object, ensuring polymorphism.
+    public static void ProcessPayment(Payment payment, double amount)
+    {
+        try
+        {
+            payment.ProcessPayment(amount);
+        }
+        catch (ArgumentException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"   -> FAILED: {ex.Message}");
+            Console.ResetColor();
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"   -> FAILED: {ex.Message}");
+            Console.ResetColor();
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine($"   -> FAILED: An unexpected error occurred: {ex.Message}");
+            Console.ResetColor();
+        }
     }
 }
 */
