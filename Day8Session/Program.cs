@@ -428,27 +428,336 @@ Console.ResetColor();
     b. Groups these transactions by Category and calculates the total sum per category.
     c. Store these results into a Dictionary<string, decimal> (Category as key, Sum as value).
     d. Finally, uses LINQ to return a List of the top 3 categories with the highest spending, sorted descending.
+*/
+//Solution:
+// namespace TransactionAnalysis
+// {
+//     // 1. Define the Transaction class
+//     public class Transaction
+//     {
+//         public decimal Amount { get; set; }
+//         public string Category { get; set; }
+//         public DateTime Date { get; set; }
+//     }
+
+//     class Program
+//     {
+//         static void Main(string[] args)
+//         {
+//             // Creating a dummy list of transactions for testing
+//             List<Transaction> transactions = new List<Transaction>
+//             {
+//                 new Transaction { Amount = 50.00m, Category = "Food", Date = DateTime.Now.AddDays(-5) },
+//                 new Transaction { Amount = 20.00m, Category = "Food", Date = DateTime.Now.AddDays(-10) },
+//                 new Transaction { Amount = 100.00m, Category = "Electronics", Date = DateTime.Now.AddDays(-2) },
+//                 new Transaction { Amount = 30.00m, Category = "Transport", Date = DateTime.Now.AddDays(-1) },
+//                 new Transaction { Amount = 150.00m, Category = "Electronics", Date = DateTime.Now.AddDays(-15) },
+//                 new Transaction { Amount = 10.00m, Category = "Food", Date = DateTime.Now.AddDays(-40) }, // Should be filtered out (> 30 days)
+//                 new Transaction { Amount = 200.00m, Category = "Rent", Date = DateTime.Now.AddDays(-20) },
+//                 new Transaction { Amount = 40.00m, Category = "Transport", Date = DateTime.Now.AddDays(-5) },
+//                 new Transaction { Amount = 60.00m, Category = "Entertainment", Date = DateTime.Now.AddDays(-10) },
+//             };
+
+//             // --- STEP A & B & C: Filter, Group, Sum and Store in Dictionary ---
+            
+//             // Define the cutoff date (30 days ago from today)
+//             DateTime cutoffDate = DateTime.Now.AddDays(-30);
+
+//             Dictionary<string, decimal> categoryTotals = transactions
+//                 // a. Filter: Only keep transactions where the date is within the last 30 days
+//                 .Where(t => t.Date >= cutoffDate) 
+                
+//                 // b. Group: Group all transactions that have the same Category string
+//                 .GroupBy(t => t.Category) 
+                
+//                 // c. Store into Dictionary: 
+//                 // The 'g' represents each Group. 
+//                 // g.Key is the Category name.
+//                 // g.Sum(t => t.Amount) adds up all the Amounts within that specific group.
+//                 .ToDictionary(g => g.Key, g => g.Sum(t => t.Amount));
+
+//             // --- STEP D: Get the top 3 categories with highest spending ---
+
+//             List<string> topCategories = categoryTotals
+//                 // Sort by the Value (the sum) in descending order (highest first)
+//                 .OrderByDescending(pair => pair.Value) 
+                
+//                 // Take only the first 3 elements from the sorted list
+//                 .Take(3) 
+                
+//                 // Select only the Key (Category Name) from the Dictionary pair
+//                 .Select(pair => pair.Key) 
+                
+//                 // Convert the final LINQ result into a List<string>
+//                 .ToList();
+
+//             // Print results to console
+//             Console.WriteLine("Top 3 Spending Categories in the last 30 days:");
+//             foreach (var cat in topCategories)
+//             {
+//                 Console.WriteLine($"- {cat}: ${categoryTotals[cat]}");
+//             }
+//         }
+//     }
+// }
 
 
+
+
+/*
 2. Design a simple 'Recent Items' cache system.
     a. Use a Queue<string> to track the order of items added.
     b. Use a HashSet<string> to ensure that no duplicate items are ever added to the queue (check the set before enqueuing).
     c. When the queue exceeds 10 items, remove the oldest item from both the Queue and the HashSet.
     d. Write a method that returns the current cache items as a sorted string[] (Array) using LINQ.
+*/
+//Solution:
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
 
+// namespace CacheSystem
+// {
+//    public class RecentItemsCache
+//    {
+//        // a. Queue tracks the order. First item in is the first one to be removed.
+//        private readonly Queue<string> _order = new Queue<string>();
+       
+//        // b. HashSet allows us to check if an item exists instantly (O(1) time complexity)
+//        private readonly HashSet<string> _uniqueItems = new HashSet<string>();
+       
+//        private const int MaxCapacity = 10;
 
+//        public void AddItem(string item)
+//        {
+//            // b. Check if the item is already in the HashSet before adding
+//            // This ensures no duplicates are ever added to the queue
+//            if (_uniqueItems.Contains(item))
+//            {
+//                Console.WriteLine($"Item '{item}' is already in cache. Skipping...");
+//                return;
+//            }
+
+//            // Add to both structures
+//            _uniqueItems.Add(item);
+//            _order.Enqueue(item);
+//            Console.WriteLine($"Added: {item}");
+
+//            // c. If queue exceeds 10 items, remove the oldest
+//            if (_order.Count > MaxCapacity)
+//            {
+//                // Dequeue() removes and returns the oldest item (the one at the front)
+//                string oldestItem = _order.Dequeue();
+               
+//                // We must also remove it from the HashSet so it can be added again in the future
+//                _uniqueItems.Remove(oldestItem);
+               
+//                Console.WriteLine($"Cache full. Removed oldest item: {oldestItem}");
+//            }
+//        }
+
+//        // d. Method to return current items as a sorted string array
+//        public string[] GetSortedItems()
+//        {
+//            // We take the Queue, sort it alphabetically using LINQ, and convert to Array
+//            return _order
+//                .OrderBy(item => item) // Sorts strings A-Z
+//                .ToArray();            // Converts the LINQ result into a string[]
+//        }
+//    }
+
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            RecentItemsCache cache = new RecentItemsCache();
+
+//            // Adding 12 items to test capacity (10) and duplicates
+//            string[] testItems = { 
+//                "Apple", "Banana", "Cherry", "Date", "Elderberry", 
+//                "Fig", "Grape", "Honeydew", "Iceberg", "Jackfruit", 
+//                "Kiwi", "Lemon" 
+//            };
+
+//            foreach (var item in testItems)
+//            {
+//                cache.AddItem(item);
+//            }
+
+//            // Test duplicate addition
+//            cache.AddItem("Apple");
+
+//            // Get the sorted list
+//            string[] sortedResults = cache.GetSortedItems();
+
+//            Console.WriteLine("\n--- Final Sorted Cache Items ---");
+//            foreach (var item in sortedResults)
+//            {
+//                Console.WriteLine(item);
+//            }
+//        }
+//    }
+// }
+   
+    
+    
+
+/*
 3. You have a List<User> where each user has an Id, Username, and a List<int> of scores.
     a. Create a Dictionary<int, int> where the key is the UserId and the value is the sum of that user's scores (calculated via LINQ).
     b. Using this dictionary, write a LINQ query to find all Usernames whose total score is above the average of all users.
     c. Return the final list of usernames as a List<string> sorted alphabetically.
+*/
+//Solution:
+
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+
+// namespace UserScoreAnalysis
+// {
+//     // Define the User class
+//     public class User
+//     {
+//         public int Id { get; set; }
+//         public string Username { get; set; }
+//         public List<int> Scores { get; set; }
+//     }
+
+//     class Program
+//     {
+//         static void Main(string[] args)
+//         {
+//             // Setup dummy data
+//             List<User> users = new List<User>
+//             {
+//                 new User { Id = 1, Username = "Alice", Scores = new List<int> { 10, 20, 30 } },    // Total: 60
+//                 new User { Id = 2, Username = "Bob", Scores = new List<int> { 5, 5, 5 } },        // Total: 15
+//                 new User { Id = 3, Username = "Charlie", Scores = new List<int> { 100, 50 } },   // Total: 150
+//                 new User { Id = 4, Username = "Diana", Scores = new List<int> { 20, 20, 20 } },   // Total: 60
+//                 new User { Id = 5, Username = "Eve", Scores = new List<int> { 10, 10 } },        // Total: 20
+//             };
+
+//             // --- STEP A: Create Dictionary<UserId, TotalScore> ---
+            
+//             // ToDictionary(keySelector, elementSelector)
+//             // keySelector: use the Id as the key
+//             // elementSelector: sum the list of scores as the value
+//             Dictionary<int, int> userTotalScores = users
+//                 .ToDictionary(u => u.Id, u => u.Scores.Sum());
+
+//             // --- STEP B & C: Find usernames above average and sort them ---
+
+//             // 1. First, calculate the average of all the totals we just calculated
+//             // We use .Values to get only the sums from our dictionary
+//             double averageScore = userTotalScores.Values.Average();
+//             Console.WriteLine($"Average Score: {averageScore:F2}");
+
+//             // 2. Now we filter the original users list
+//             List<string> topUsers = users
+//                 // Filter: Look up the user's total score in our dictionary and compare to average
+//                 .Where(u => userTotalScores[u.Id] > averageScore)
+                
+//                 // Project: We only want the Username string, not the whole User object
+//                 .Select(u => u.Username)
+                
+//                 // Sort: Order alphabetically (A-Z)
+//                 .OrderBy(name => name)
+                
+//                 // Finalize: Convert the LINQ result to a List
+//                 .ToList();
+
+//             // Print the final result
+//             Console.WriteLine("Users with above-average scores (Sorted):");
+//             foreach (var name in topUsers)
+//             {
+//                 Console.WriteLine($"- {name}");
+//             }
+//         }
+//     }
+// }
 
 
+
+
+/*
 4. You have a Dictionary<string, List<Employee>> where the key is the Department Name and the value is a list of employees in that department.
     a. Use LINQ SelectMany to flatten all employees from all departments into one single sequence.
     b. Filter this sequence to find employees who earn more than $50,000.
     c. Transform (Project) these employees into a List of their full names (FirstName + LastName).
     d. Convert the final result into an Array.
 */
+
+//Solution:
+
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+
+// namespace EmployeeAnalysis
+// {
+//     // Define the Employee class
+//     public class Employee
+//     {
+//         public string FirstName { get; set; }
+//         public string LastName { get; set; }
+//         public decimal Salary { get; set; }
+//     }
+
+//     class Program
+//     {
+//         static void Main(string[] args)
+//         {
+//             // Setup: A Dictionary where Key = Department Name, Value = List of Employees
+//             Dictionary<string, List<Employee>> companyDepartments = new Dictionary<string, List<Employee>>
+//             {
+//                 { "IT", 
+//                     new List<Employee> 
+//                     { 
+//                         new Employee { FirstName = "John", LastName = "Doe", Salary = 60000 }, 
+//                         new Employee { FirstName = "Jane", LastName = "Smith", Salary = 45000 } 
+//                     }
+//                 },
+//                 { "HR", new List<Employee> { 
+//                     new Employee { FirstName = "Alice", LastName = "Johnson", Salary = 55000 }, 
+//                     new Employee { FirstName = "Bob", LastName = "Brown", Salary = 40000 } 
+//                 }},
+//                 { "Sales", new List<Employee> { 
+//                     new Employee { FirstName = "Charlie", LastName = "Davis", Salary = 70000 }, 
+//                     new Employee { FirstName = "Diana", LastName = "Prince", Salary = 51000 } 
+//                 }}
+//             };
+
+//             // --- LINQ Pipeline ---
+
+//             Employee[] highEarnerss = 
+//                 companyDepartments.SelectMany(deptPair => deptPair.Value).ToArray(); 
+            
+            
+//             string[] highEarners = companyDepartments
+//                 // a. SelectMany: "Flattening"
+//                 // The dictionary contains KeyValuePairs. We only care about the Value (the List<Employee>).
+//                 // SelectMany takes all the lists from all departments and merges them into one big sequence of Employees.
+//                 .SelectMany(deptPair => deptPair.Value) 
+                
+//                 // b. Filter: Keep only those earning more than 50,000
+//                 .Where(emp => emp.Salary > 50000)
+                
+//                 // c. Project: Transform the Employee object into a single "Full Name" string
+//                 .Select(emp => $"{emp.FirstName} {emp.LastName}")
+                
+//                 // d. Convert the final sequence into an Array
+//                 .ToArray();
+
+//             // Print results to console
+//             Console.WriteLine("Employees earning more than $50,000:");
+//             foreach (var name in highEarners)
+//             {
+//                 Console.WriteLine($"- {name}");
+//             }
+//         }
+//     }
+// }
 
 
 
