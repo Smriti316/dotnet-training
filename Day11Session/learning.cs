@@ -494,3 +494,135 @@ Generics (Generic Methods, Classes, Constraints)
 Asynchronous Programming (async/await, Tasks, Cancellation)
 */
 
+
+
+
+/*
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("******************  Practice Session  *******************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.ResetColor();
+*/
+
+
+//************************************************************************************* Practice Problems *********************************************************************// 
+/*
+1.⁠ ⁠Create an immutable record called Order and asynchronously process a list of orders using a generic Repository<T> to calculate total revenue.
+2.⁠ ⁠Write a generic method ProcessAsync<T> that accepts a list of records and simulates processing each item using Task.Delay and async/await.
+3.⁠ ⁠Use Task.WhenAll to process multiple Order records in parallel and return a new modified record using the with expression.
+4.⁠ ⁠Create a generic method with constraint where T : IComparable<T> to find the highest value (e.g., highest order amount) from asynchronously processed data.
+5.⁠ ⁠Design a flow where records are fetched asynchronously, stored in a generic repository, processed in parallel, and the final result is printed in a non-blocking way.
+*/
+//Solution:
+/*
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace AdvancedCSharpDemo
+{
+    // 1. Immutable record called Order. 
+    // Positional parameters make this record immutable by default.
+    public record Order(int OrderId, decimal Amount, bool IsProcessed = false);
+
+    // 1. Generic Repository<T> to store and manage data.
+    public class Repository<T>
+    {
+        private readonly List<T> _storage = new();
+
+        public void SaveAll(IEnumerable<T> items) => _storage.AddRange(items);
+        public List<T> GetAll() => _storage;
+    }
+
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            Console.WriteLine("Starting non-blocking order processing flow...\n");
+
+            // 5. Design a flow: Fetch -> Store -> Process -> Print
+            // We use 'await' to ensure the main thread isn't blocked while waiting for I/O or processing.
+            var orders = await FetchOrdersAsync(); 
+            
+            var repository = new Repository<Order>();
+            repository.SaveAll(orders);
+
+            // 3. Process multiple records in parallel and return modified records using 'with'
+            // We pass a lambda that uses the 'with' expression to change the IsProcessed flag.
+            var processedOrders = await ProcessAsync(
+                repository.GetAll(), 
+                order => order with { IsProcessed = true }
+            );
+
+            // Calculate total revenue
+            decimal totalRevenue = processedOrders.Sum(o => o.Amount);
+            Console.WriteLine($"Total Revenue: ${totalRevenue:F2}");
+
+            // 4. Use the generic method with IComparable constraint to find the highest amount
+            // We extract the amounts from the processed orders to find the max.
+            var amounts = processedOrders.Select(o => o.Amount).ToList();
+            decimal maxAmount = FindMax(amounts);
+
+            Console.WriteLine($"Highest Order Amount: ${maxAmount:F2}");
+            Console.WriteLine("\nFlow completed successfully.");
+        }
+
+        // Simulation of fetching data asynchronously
+        private static async Task<List<Order>> FetchOrdersAsync()
+        {
+            await Task.Delay(500); // Simulate network latency
+            return new List<Order>
+            {
+                new Order(1, 150.50m),
+                new Order(2, 200.00m),
+                new Order(3, 50.25m),
+                new Order(4, 450.75m),
+                new Order(5, 120.00m)
+            };
+        }
+
+        // 2. Generic method ProcessAsync<T>
+        // Accepts a list of records and a transformation function.
+        // This allows the method to remain generic while still allowing specific records to be modified.
+        public static async Task<List<T>> ProcessAsync<T>(List<T> items, Func<T, T> transform)
+        {
+            // Create a list of tasks to process items in parallel
+            var tasks = items.Select(async item =>
+            {
+                // Simulate processing time (e.g., database update, API call)
+                await Task.Delay(100); 
+                
+                // Return the modified record using the transformation function provided (which uses 'with')
+                return transform(item);
+            });
+
+            // 3. Use Task.WhenAll to process all tasks in parallel
+            T[] results = await Task.WhenAll(tasks);
+            return results.ToList();
+        }
+
+        // 4. Generic method with constraint where T : IComparable<T>
+        // This ensures that the type T can be compared to another T to determine which is "greater".
+        public static T FindMax<T>(IEnumerable<T> items) where T : IComparable<T>
+        {
+            if (items == null || !items.Any())
+                throw new ArgumentException("Collection cannot be empty");
+
+            T max = items.First();
+            foreach (var item in items)
+            {
+                // CompareTo returns > 0 if the current item is greater than 'max'
+                if (item.CompareTo(max) > 0)
+                {
+                    max = item;
+                }
+            }
+            return max;
+        }
+    }
+}
+*/
