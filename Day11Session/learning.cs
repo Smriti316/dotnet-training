@@ -492,6 +492,7 @@ File Operation IO
 Struct, Records, Tuple, Delegates, Events
 Generics (Generic Methods, Classes, Constraints)
 Asynchronous Programming (async/await, Tasks, Cancellation)
+enum
 */
 
 

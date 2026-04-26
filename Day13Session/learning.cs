@@ -915,3 +915,20 @@ class Program
     }
 }
 */
+
+
+/*
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("******************  Practice Session  *******************");
+Console.WriteLine("*********************************************************");
+Console.WriteLine("*********************************************************");
+Console.ResetColor();
+*/
+//************************************************************************************* Practice Problems *********************************************************************// 
+/*
+1. Create a simple calculator in C# with all the basic calculations and try to use almost of the topic we have covered up till date. (Upto Day 13 Session)
+//Solution:
+// Project1_CalculatorApplication
+*/
