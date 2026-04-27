@@ -1,13 +1,15 @@
+using LibraryManagementSystem.Model;
+
 namespace LibraryManagementSystem.Services;
 
 public class BookService : IBookServices
 {
-    public void AddBooks(Books books)
+    public void AddBooks(Book books)
     {
         Console.Write("hello");
     }
 
-    public void EditBooks(Books books)
+    public void EditBooks(Book books)
     {
         throw new NotImplementedException();
     }
@@ -17,12 +19,12 @@ public class BookService : IBookServices
         throw new NotImplementedException();
     }
 
-    public List<Books> ViewAllBooks()
+    public List<Book> ViewAllBooks()
     {
         throw new NotImplementedException();
     }
 
-    public List<Books> SearchBook(string searchParam)
+    public List<Book> SearchBook(string searchParam)
     {
         throw new NotImplementedException();
     }

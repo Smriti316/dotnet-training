@@ -1,4 +1,6 @@
-public class Books
+namespace LibraryManagementSystem.Model;
+
+public class Book
 {
     public int BookId { get; set; }
     public string Name { get; set; }

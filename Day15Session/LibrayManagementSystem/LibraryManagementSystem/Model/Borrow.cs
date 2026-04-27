@@ -1,3 +1,5 @@
+namespace LibraryManagementSystem.Model;
+
 public class Borrow
 {
     public int BookId { get; set; }
