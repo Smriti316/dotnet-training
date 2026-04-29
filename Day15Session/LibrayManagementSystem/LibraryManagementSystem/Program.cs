@@ -1,5 +1,4 @@
-﻿using LibraryManagementSystem.Repository;
-using LibraryManagementSystem.Services.BookService;
+﻿using LibraryManagementSystem.Services.BookService;
 using LibraryManagementSystem.Services.BorrowService;
 using LibraryManagementSystem.Services.MainApplication;
 using LibraryManagementSystem.Services.MemberService;
@@ -12,7 +11,6 @@ services.AddSingleton<IBookService, BookService>();
 services.AddSingleton<IBorrowService, BorrowService>();
 services.AddSingleton<IMemberService, MemberService>();
 services.AddSingleton<IReportService, ReportService>();
-services.AddSingleton<IBookRepository, BookRepository>();
 
 
 services.AddSingleton<ILmsApp, LmsApp>();

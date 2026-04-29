@@ -13,4 +13,5 @@ public class Member : LmsShared
     public DateTime ExpirationDate { get; set; }
     public string MembershipType { get; set; }
     public string Status { get; set; }
+    
 }
