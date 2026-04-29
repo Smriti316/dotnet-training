@@ -9,12 +9,12 @@ namespace LibraryManagementSystem.Services.ReportService
             throw new NotImplementedException();
         }
 
-        public void GetOverDueBooksReport()
+        public List<DueDateReport> GetOverDueBooksReport(DateOnly currentDate)
         {
             throw new NotImplementedException();
         }
 
-        public void HistoryOfStudentsReport()
+        public List<MemberHistoryReport> MemberHistoryReport(int memberId)
         {
             throw new NotImplementedException();
         }

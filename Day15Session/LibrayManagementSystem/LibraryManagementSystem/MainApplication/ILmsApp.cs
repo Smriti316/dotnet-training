@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Services.MainApplication
+﻿namespace LibraryManagementSystem.MainApplication
 {
     public interface ILmsApp
     {

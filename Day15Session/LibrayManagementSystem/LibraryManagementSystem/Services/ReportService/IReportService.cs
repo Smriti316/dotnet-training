@@ -5,7 +5,7 @@ namespace LibraryManagementSystem.Services.ReportService
     public interface IReportService
     {
         List<BorrowedReport> GetCurrentlyBorrowedBooksReport(BorrowedReportFilter borrowedReportFilter);
-        void GetOverDueBooksReport();
-        void HistoryOfStudentsReport();
+        List<DueDateReport> GetOverDueBooksReport(DateOnly currentDate);
+        List<MemberHistoryReport> MemberHistoryReport(int memberId);
     }
 }

@@ -1,9 +1,11 @@
-﻿using LibraryManagementSystem.Services.BookService;
+﻿using LibraryManagementSystem.Model;
+using LibraryManagementSystem.Repository.BookRepository;
+using LibraryManagementSystem.Services.BookService;
 using LibraryManagementSystem.Services.BorrowService;
 using LibraryManagementSystem.Services.MemberService;
 using LibraryManagementSystem.Services.ReportService;
 
-namespace LibraryManagementSystem.Services.MainApplication
+namespace LibraryManagementSystem.MainApplication
 {
     public class LmsApp : ILmsApp
     {
@@ -13,6 +15,7 @@ namespace LibraryManagementSystem.Services.MainApplication
         private readonly IReportService _reportService;
 
         public LmsApp(IBookService bookService, IMemberService memberService, IBorrowService borrowService, IReportService reportService)
+
         {
             _bookService = bookService;
             _memberService = memberService;
@@ -22,7 +25,13 @@ namespace LibraryManagementSystem.Services.MainApplication
 
         public void Run()
         {
-            throw new NotImplementedException();
+            var book = new Book
+            {
+                BookId = 6,
+                Name = "Hello World"
+            };
+            _bookService.EditBooks(book);
+            Console.WriteLine("Hello Welcome to the Library Management System!");
         }
     }
 }

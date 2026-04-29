@@ -1,4 +1,5 @@
 using LibraryManagementSystem.Model;
+using LibraryManagementSystem.Repository.BookRepository;
 
 namespace LibraryManagementSystem.Services.BookService;
 
@@ -10,18 +11,26 @@ namespace LibraryManagementSystem.Services.BookService;
 /// performance characteristics depend on the specific implementation.</remarks>
 public class BookService : IBookService
 {
+    private readonly IBookRepository _bookRepository;
+    public BookService(IBookRepository bookRepository)
+    {
+        _bookRepository = bookRepository;
+    }
+
     /// <summary>
     /// Adds a book to the collection.
     /// </summary>
     /// <param name="books">The book to add to the collection. Cannot be null.</param>
-    public void AddBooks(Book books)
+    public void AddBooks(Book book)
     {
-        Console.Write("hello");
+        book.CreatedDate = DateTime.Now;
+        book.CreatedBy = "admin";
+        _bookRepository.AddBooks(book);
     }
 
     public void EditBooks(Book books)
     {
-        throw new NotImplementedException();
+        _bookRepository.EditBooks(books);
     }
 
     public void DeleteBooks(int id)
@@ -35,7 +44,8 @@ public class BookService : IBookService
     /// <returns>A list of <see cref="Book"/> objects representing all books. The list is empty if no books are available.</returns>
     public List<Book> ViewAllBooks()
     {
-        throw new NotImplementedException();
+        var bookDetails = _bookRepository.ViewAllBooks();
+        return bookDetails;
     }
 
     public List<Book> SearchBook(string searchParam)
