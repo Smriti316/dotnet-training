@@ -4,17 +4,17 @@ namespace LibraryManagementSystem.Services.MemberService
 {
     public class MemberService : IMemberService
     {
-        public void AddMembers(Member member)
+        public void AddMember(Member member)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteMembers(int memberId)
+        public void DeleteMember(int memberId)
         {
             throw new NotImplementedException();
         }
 
-        public void EditMembers(Member member)
+        public void EditMember(Member member)
         {
             throw new NotImplementedException();
         }
@@ -24,7 +24,7 @@ namespace LibraryManagementSystem.Services.MemberService
             throw new NotImplementedException();
         }
 
-        public List<Member> SearchMember()
+        public List<Member> SearchMembers()
         {
             throw new NotImplementedException();
         }

@@ -10,8 +10,8 @@ namespace LibraryManagementSystem.Services.BookService;
 /// mechanism, allowing consumers to interact with book data in a consistent manner.</remarks>
 public interface IBookService
 {
-    void AddBooks(Book books); 
-    void EditBooks(Book books);
+    void AddBooks(Book book); 
+    void EditBooks(Book book);
     void DeleteBooks(int id);
     List<Book> ViewAllBooks();
     List<Book> SearchBook(string searchParam);

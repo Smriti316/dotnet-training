@@ -4,11 +4,11 @@ namespace LibraryManagementSystem.Services.MemberService
 {
     public interface IMemberService
     {
-        void AddMembers(Member member);
-        void EditMembers(Member member);
-        void DeleteMembers(int memberId);
+        void AddMember(Member member);
+        void EditMember(Member member);
+        void DeleteMember(int memberId);
         List<Member> ViewAllMembers();
-        List<Member> SearchMember();
+        List<Member> SearchMembers();
         void RenewMembership(Member member);
         
     }

@@ -6,43 +6,37 @@ namespace LibraryManagementSystem.Repository.BookRepository
     public class BookRepository : IBookRepository
     {
         private readonly string _connectionString = "../../../Data/book.json";
-        public void AddBooks(Book book)
+        public void AddBook(Book book)
         {
             var bookDetails = GetAllBooksForOperation();
 
-            int BookMaxId = bookDetails.Max(b => b.BookId);
-            book.BookId = BookMaxId + 1;
+            int bookMaxId = bookDetails.Max(b => b.BookId);
+            book.BookId = bookMaxId + 1;
 
             bookDetails.Add(book);
             var bookString = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, bookString);
         }
 
-        public void DeleteBooks(int id)
+        public void DeleteBook(int id)
         {
             var bookDetails = GetAllBooksForOperation(); bookDetails.RemoveAll(b => b.BookId == id);
             var bookString = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, bookString);
         }
 
-        public void EditBooks(Book books)
+        public void EditBook(Book book)
         {
             var bookDetails = GetAllBooksForOperation();
-            int BookMaxId = bookDetails.Max(b => b.BookId);
-            var bookToEdit = bookDetails.FirstOrDefault(b => b.BookId == books.BookId);
-            bookToEdit.BookId = BookMaxId + 1;
-            bookToEdit.Name = books.Name;
-            bookDetails.Add(bookToEdit);
-            var bookString = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_connectionString, bookString);
-
-            var bookDetailsUpdated = GetAllBooksForOperation();
-            bookDetailsUpdated.RemoveAll(b => b.BookId == BookMaxId);
-            var bookStringUpdated = JsonSerializer.Serialize(bookDetailsUpdated, new JsonSerializerOptions { WriteIndented = true });
+            var bookToEdit = bookDetails.FirstOrDefault(b => b.BookId == book.BookId);
+            bookToEdit?.Name = book.Name;
+            bookToEdit?.ModifiedDate = book.ModifiedDate;
+            bookToEdit?.ModifiedBy = book.ModifiedBy;
+            var bookStringUpdated = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, bookStringUpdated);
         }
 
-        public List<Book> SearchBook(string searchParam)
+        public List<Book> SearchBooks(string searchParam)
         {
             throw new NotImplementedException();
         }

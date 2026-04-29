@@ -20,17 +20,19 @@ public class BookService : IBookService
     /// <summary>
     /// Adds a book to the collection.
     /// </summary>
-    /// <param name="books">The book to add to the collection. Cannot be null.</param>
+    /// <param name="book">The book to add to the collection. Cannot be null.</param>
     public void AddBooks(Book book)
     {
         book.CreatedDate = DateTime.Now;
         book.CreatedBy = "admin";
-        _bookRepository.AddBooks(book);
+        _bookRepository.AddBook(book);
     }
 
-    public void EditBooks(Book books)
+    public void EditBooks(Book book)
     {
-        _bookRepository.EditBooks(books);
+        book.ModifiedBy = "admin";
+        book.ModifiedDate = DateTime.Now;
+        _bookRepository.EditBook(book);
     }
 
     public void DeleteBooks(int id)

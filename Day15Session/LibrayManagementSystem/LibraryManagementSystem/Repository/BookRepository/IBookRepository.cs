@@ -4,10 +4,10 @@ namespace LibraryManagementSystem.Repository.BookRepository
 {
     public interface IBookRepository
     {
-        void AddBooks(Book books);
-        void EditBooks(Book books);
-        void DeleteBooks(int id);
+        void AddBook(Book book);
+        void EditBook(Book book);
+        void DeleteBook(int id);
         List<Book> ViewAllBooks();
-        List<Book> SearchBook(string searchParam);
+        List<Book> SearchBooks(string searchParam);
     }
 }
