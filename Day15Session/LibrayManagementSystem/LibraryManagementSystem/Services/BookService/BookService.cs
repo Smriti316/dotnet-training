@@ -37,7 +37,7 @@ public class BookService : IBookService
 
     public void DeleteBooks(int id)
     {
-        throw new NotImplementedException();
+        _bookRepository.DeleteBook(id);
     }
 
     /// <summary>
@@ -52,6 +52,6 @@ public class BookService : IBookService
 
     public List<Book> SearchBook(string searchParam)
     {
-        throw new NotImplementedException();
+        return _bookRepository.SearchBooks(searchParam);
     }
 }
