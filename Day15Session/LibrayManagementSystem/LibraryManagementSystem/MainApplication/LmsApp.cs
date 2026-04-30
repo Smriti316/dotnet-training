@@ -27,28 +27,14 @@ namespace LibraryManagementSystem.MainApplication
         public void Run()
         {
             Console.WriteLine("Hello Welcome to the Library Management System!");
-            Console.WriteLine("/***************************************************/");
-            Console.WriteLine("--------MENU-------");
-            Console.WriteLine("1. Book Operations");
-            Console.WriteLine("2. Member Operations");
-            Console.WriteLine("3. Borrow Operations");
-            Console.WriteLine("4. Report Operations");
-            Console.WriteLine("/***************************************************/");
-
+            ShowMenu();
             Console.WriteLine("Please select a number to proceed: ");
             var operationChoice = Console.ReadLine();
             switch(operationChoice)
             {
                 case "1":
-                    Console.WriteLine("--------SUB MENU-------");
-                    Console.WriteLine("1. Add Book");
-                    Console.WriteLine("2. Edit Book");
-                    Console.WriteLine("3. Delete Book");
-                    Console.WriteLine("4. Search Books");
-                    Console.WriteLine("5. View All Books");
-                    Console.WriteLine("/***************************************************/");
+                    ShowBookMenu();
                     var operationMethodChoice = Console.ReadLine();
-
                     switch(operationMethodChoice)
                     {
                         case "5":
@@ -61,7 +47,6 @@ namespace LibraryManagementSystem.MainApplication
                         default:
                             Console.WriteLine("Invalid sub menu!"); 
                             break;
-                        
                     }
                     break;
                 case "2":
@@ -78,7 +63,25 @@ namespace LibraryManagementSystem.MainApplication
 
         private void ShowMenu()
         {
+            Console.WriteLine("/***************************************************/");
+            Console.WriteLine("--------MENU-------");
+            Console.WriteLine("1. Book Operations");
+            Console.WriteLine("2. Member Operations");
+            Console.WriteLine("3. Borrow Operations");
+            Console.WriteLine("4. Report Operations");
+            Console.WriteLine("/***************************************************/");
 
+        }
+
+        private void ShowBookMenu()
+        {
+            Console.WriteLine("--------SUB MENU-------");
+            Console.WriteLine("1. Add Book");
+            Console.WriteLine("2. Edit Book");
+            Console.WriteLine("3. Delete Book");
+            Console.WriteLine("4. Search Books");
+            Console.WriteLine("5. View All Books");
+            Console.WriteLine("/***************************************************/");
         }
     }
 }
