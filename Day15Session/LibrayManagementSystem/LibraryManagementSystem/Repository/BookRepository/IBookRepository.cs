@@ -5,8 +5,8 @@ namespace LibraryManagementSystem.Repository.BookRepository
     public interface IBookRepository
     {
         void AddBook(Book book);
-        void EditBook(Book book);
-        void DeleteBook(int id);
+        bool EditBook(Book book);
+        bool DeleteBook(int id);
         List<Book> ViewAllBooks();
         List<Book> SearchBooks(string searchParam);
     }

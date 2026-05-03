@@ -18,22 +18,37 @@ namespace LibraryManagementSystem.Repository.BookRepository
             File.WriteAllText(_connectionString, bookString);
         }
 
-        public void DeleteBook(int id)
+        public bool DeleteBook(int id)
         {
-            var bookDetails = GetAllBooksForOperation(); bookDetails.RemoveAll(b => b.BookId == id);
+            var bookDetails = GetAllBooksForOperation();
+            var bookToDelete = bookDetails.FirstOrDefault(b => b.BookId == id);
+            if (bookToDelete == null)
+            {
+                return false;
+            }
+            bookDetails.RemoveAll(b => b.BookId == id);
             var bookString = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, bookString);
+            return true;
         }
 
-        public void EditBook(Book book)
+        public bool EditBook(Book book)
         {
             var bookDetails = GetAllBooksForOperation();
             var bookToEdit = bookDetails.FirstOrDefault(b => b.BookId == book.BookId);
-            bookToEdit?.Name = book.Name;
-            bookToEdit?.ModifiedDate = book.ModifiedDate;
-            bookToEdit?.ModifiedBy = book.ModifiedBy;
-            var bookStringUpdated = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(_connectionString, bookStringUpdated);
+            if (bookToEdit == null)
+            {
+                return false;
+            }
+            else
+            {
+                bookToEdit.Name = book.Name;
+                bookToEdit.ModifiedDate = book.ModifiedDate;
+                bookToEdit.ModifiedBy = book.ModifiedBy;
+                var bookStringUpdated = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_connectionString, bookStringUpdated);
+                return true;
+            }
         }
 
         public List<Book> SearchBooks(string searchParam)

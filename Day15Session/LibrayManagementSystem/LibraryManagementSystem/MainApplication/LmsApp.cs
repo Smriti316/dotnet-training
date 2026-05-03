@@ -107,17 +107,37 @@ namespace LibraryManagementSystem.MainApplication
                             BookId = Convert.ToInt32(bookId),
                             Name = updateBookName
                         };
-                        _bookService.EditBooks(updatedBookDetails);
+                        var hasBeenEdited = _bookService.EditBooks(updatedBookDetails);
                         Console.Clear();
-                        Console.WriteLine("Book updated successfully!");
+                        if (hasBeenEdited)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Book updated successfully!");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Book not found with the given id!");
+                        }
+                        Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case"3":
                         Console.WriteLine("Enter book id for delete: ");
                         var deleteBookId = Console.ReadLine();
-                        _bookService.DeleteBooks(Convert.ToInt32(deleteBookId));
+                        var hasBookBeenDeleted = _bookService.DeleteBooks(Convert.ToInt32(deleteBookId));
                         Console.Clear();
-                        Console.WriteLine("Book deleted successfully!");
+                        if(hasBookBeenDeleted)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Book deleted successfully!");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Book not found with the given id!");
+                        }
+                        Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "4":
@@ -198,17 +218,37 @@ namespace LibraryManagementSystem.MainApplication
                             MemberId = Convert.ToInt32(memberId),
                             MemberName = updateMemberName
                         };
-                        _memberService.EditMember(updatedMemberDetails);
+                        var hasMemberBeenEdited = _memberService.EditMember(updatedMemberDetails);
                         Console.Clear();
-                        Console.WriteLine("Member details updated successfully!");
+                        if(hasMemberBeenEdited)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Member details updated successfully!");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Member details with the id is not found!");
+                        }
+                        Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case"3":
                         Console.WriteLine("Enter membership id for delete: ");
                         var deleteMemberId = Console.ReadLine();
-                        _memberService.DeleteMember(Convert.ToInt32(deleteMemberId));
+                        var hasMemberBeenDeleted = _memberService.DeleteMember(Convert.ToInt32(deleteMemberId));
                         Console.Clear();
-                        Console.WriteLine("Member deleted successfully!");
+                        if (hasMemberBeenDeleted)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Member details deleted successfully!");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Member details with the id is not found!");
+                        }
+                        Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "4":

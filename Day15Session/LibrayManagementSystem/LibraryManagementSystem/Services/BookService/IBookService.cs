@@ -11,8 +11,8 @@ namespace LibraryManagementSystem.Services.BookService;
 public interface IBookService
 {
     void AddBooks(Book book); 
-    void EditBooks(Book book);
-    void DeleteBooks(int id);
+    bool EditBooks(Book book);
+    bool DeleteBooks(int id);
     List<Book> ViewAllBooks();
     List<Book> SearchBook(string searchParam);
 }

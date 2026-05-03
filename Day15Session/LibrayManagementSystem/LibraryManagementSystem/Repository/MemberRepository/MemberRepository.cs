@@ -19,15 +19,21 @@ namespace LibraryManagementSystem.Repository.MemberRepository
             File.WriteAllText(_connectionString, memberString);
         }
 
-        public void DeleteMember(int memberId)
+        public bool DeleteMember(int memberId)
         {
             var memberDetails = GetAllMembersForOperation();
+            var memberToDelete = memberDetails.FirstOrDefault(m => m.MemberId == memberId);
+            if(memberToDelete == null)
+            {
+                return false;
+            }
             memberDetails.RemoveAll(m => m.MemberId == memberId);
             var memberString = JsonSerializer.Serialize(memberDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, memberString);
+            return true;
         }
 
-        public void EditMember(Member member)
+        public bool EditMember(Member member)
         {
             var memberDetails = GetAllMembersForOperation();
             var memberToEdit = memberDetails.FirstOrDefault(m => m.MemberId == member.MemberId);
@@ -45,6 +51,11 @@ namespace LibraryManagementSystem.Repository.MemberRepository
                 
                 var memberStringUpdated = JsonSerializer.Serialize(memberDetails, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(_connectionString, memberStringUpdated);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

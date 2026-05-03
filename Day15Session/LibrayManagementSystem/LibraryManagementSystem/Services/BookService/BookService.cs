@@ -28,16 +28,18 @@ public class BookService : IBookService
         _bookRepository.AddBook(book);
     }
 
-    public void EditBooks(Book book)
+    public bool EditBooks(Book book)
     {
         book.ModifiedBy = "admin";
         book.ModifiedDate = DateTime.Now;
-        _bookRepository.EditBook(book);
+        return _bookRepository.EditBook(book);
+        //var hasBookBeenEdited =  _bookRepository.EditBook(book);
+        //return hasBookBeenEdited;
     }
 
-    public void DeleteBooks(int id)
+    public bool DeleteBooks(int id)
     {
-        _bookRepository.DeleteBook(id);
+        return _bookRepository.DeleteBook(id);
     }
 
     /// <summary>

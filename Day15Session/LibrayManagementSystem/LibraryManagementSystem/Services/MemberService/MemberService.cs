@@ -12,14 +12,14 @@ namespace LibraryManagementSystem.Services.MemberService
             _memberRepository.AddMember(member);
         }
 
-        public void DeleteMember(int memberId)
+        public bool DeleteMember(int memberId)
         {
-            _memberRepository.DeleteMember(memberId);
+            return _memberRepository.DeleteMember(memberId);
         }
 
-        public void EditMember(Member member)
+        public bool EditMember(Member member)
         {
-            _memberRepository.EditMember(member);
+            return _memberRepository.EditMember(member);
         }
 
         public void RenewMembership(Member member)
