@@ -9,5 +9,6 @@ namespace LibraryManagementSystem.Repository.BookRepository
         bool DeleteBook(int id);
         List<Book> ViewAllBooks();
         List<Book> SearchBooks(string searchParam);
+        bool UpdateBookCount(Book book);
     }
 }

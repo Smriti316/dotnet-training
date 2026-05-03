@@ -51,6 +51,25 @@ namespace LibraryManagementSystem.Repository.BookRepository
             }
         }
 
+        public bool UpdateBookCount(Book book)
+        {
+            var bookDetails = GetAllBooksForOperation();
+            var bookToEdit = bookDetails.FirstOrDefault(b => b.BookId == book.BookId);
+            if (bookToEdit == null)
+            {
+                return false;
+            }
+            else
+            {
+                bookToEdit.AvailableCopies = book.AvailableCopies;
+                bookToEdit.ModifiedDate = book.ModifiedDate;
+                bookToEdit.ModifiedBy = book.ModifiedBy;
+                var bookStringUpdated = JsonSerializer.Serialize(bookDetails, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_connectionString, bookStringUpdated);
+                return true;
+            }
+        }
+
         public List<Book> SearchBooks(string searchParam)
         {
             var bookDetails = GetAllBooksForOperation();

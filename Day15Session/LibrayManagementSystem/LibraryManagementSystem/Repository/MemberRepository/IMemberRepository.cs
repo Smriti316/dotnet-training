@@ -2,7 +2,7 @@
 
 namespace LibraryManagementSystem.Repository.MemberRepository
 {
-    public interface IMemberRepository
+    public interface    IMemberRepository
     {
         void AddMember(Member member);
         bool EditMember(Member member);

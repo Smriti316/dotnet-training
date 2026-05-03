@@ -2,6 +2,8 @@
 using LibraryManagementSystem.Learnings.ExplicitImplementation;
 using LibraryManagementSystem.MainApplication;
 using LibraryManagementSystem.Repository.BookRepository;
+using LibraryManagementSystem.Repository.BorrowRepository;
+using LibraryManagementSystem.Repository.MemberRepository;
 using LibraryManagementSystem.Services;
 using LibraryManagementSystem.Services.BookService;
 using LibraryManagementSystem.Services.BorrowService;
@@ -20,6 +22,8 @@ services.AddSingleton<IReportService, ReportService>();
 
 #region Repository Registrations
 services.AddSingleton<IBookRepository, BookRepository>();
+services.AddSingleton<IMemberRepository, MemberRepository>();
+services.AddSingleton<IBorrowRepository, BorrowRepository>();
 #endregion
 
 

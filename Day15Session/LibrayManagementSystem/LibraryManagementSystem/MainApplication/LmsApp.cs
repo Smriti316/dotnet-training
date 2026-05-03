@@ -41,6 +41,7 @@ namespace LibraryManagementSystem.MainApplication
                         ShowMemberOperation();
                         break;
                     case "3":
+                        ShowBorrowOperation();
                         break;
                     case "4":
                         break;
@@ -54,7 +55,6 @@ namespace LibraryManagementSystem.MainApplication
                 }
             }
         }
-
         private void ShowMenu()
         {
             Console.WriteLine("/***************************************************/");
@@ -67,7 +67,6 @@ namespace LibraryManagementSystem.MainApplication
             Console.WriteLine("/***************************************************/");
 
         }
-
         private void ShowBookOperation()
         {
             while(true)
@@ -177,7 +176,6 @@ namespace LibraryManagementSystem.MainApplication
                 }
             }
         }
-        
         private void ShowMemberOperation()
         {
             while(true)
@@ -293,6 +291,57 @@ namespace LibraryManagementSystem.MainApplication
                     case "0":
                         Console.Clear();
                         Console.WriteLine("Exiting Member Operations...\n\n\n");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid sub menu!");
+                        break;
+                }
+            }
+        }
+        private void ShowBorrowOperation()
+        {
+            while (true)
+            {
+                Console.WriteLine("--------SUB MENU-------");
+                Console.WriteLine("1. Borrow Book");
+                Console.WriteLine("2. Due Date Management");
+                Console.WriteLine("3. Borrow Fine");
+                Console.WriteLine("4. Return Book");
+                Console.WriteLine("0. Exit");
+                Console.WriteLine("/***************************************************/");
+                Console.WriteLine("Please select a menu to proceed: ");
+                var operationMethodChoice = Console.ReadLine();
+                switch (operationMethodChoice)
+                {
+                    case "1":
+                        Console.WriteLine("Enter membership id : ");
+                        var membershipId = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter book id : ");
+                        var bookId = Convert.ToInt32(Console.ReadLine());
+                        var hasBeenEdited = _borrowService.BorrowBook(bookId, membershipId);
+                        Console.Clear();
+                        if (hasBeenEdited)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Book borrowed successfully!");
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("The Book requested for the member with the id is not found! or book is not available at the moment!");
+                        }
+                        Console.ResetColor();
+                        Console.WriteLine("/**********************************************/\n\n");
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        break;
+                    case "4":
+                        break;
+                    case "0":
+                        Console.Clear();
+                        Console.WriteLine("Exiting Book Operations...\n\n\n");
                         return;
                     default:
                         Console.WriteLine("Invalid sub menu!");

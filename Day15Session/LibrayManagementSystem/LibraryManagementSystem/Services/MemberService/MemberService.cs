@@ -9,6 +9,10 @@ namespace LibraryManagementSystem.Services.MemberService
 
         public void AddMember(Member member)
         {
+            member.JoinedDate = DateTime.Now;
+            member.ExpirationDate = DateTime.Now.AddDays(90);
+            member.CreatedBy = "admin";
+            member.CreatedDate = DateTime.Now;
             _memberRepository.AddMember(member);
         }
 

@@ -10,21 +10,18 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
         public void BorrowBook(int bookId, int memberId)
         {
             var borrowDetails = GetAllBorrowsForOperation();
-
             int maxRecordId = borrowDetails.Any() ? borrowDetails.Max(b => b.RecordId) : 0;
-
             var newBorrow = new Borrow
             {
                 RecordId = maxRecordId + 1,
                 BookId = bookId,
                 MemberId = memberId,
                 IssuedDate = DateTime.Now,
-                DueDate = DateTime.Now.AddDays(14), // Assuming a 14-day loan period
+                DueDate = DateTime.Now.AddDays(15), // Assuming a 14-day loan period
                 Status = "Borrowed",
                 CreatedDate = DateTime.Now,
-                // CreatedBy would be set by the user context, not handled here
+                CreatedBy = "admin"
             };
-
             borrowDetails.Add(newBorrow);
             var borrowString = JsonSerializer.Serialize(borrowDetails, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_connectionString, borrowString);
