@@ -2,9 +2,9 @@
 {
     public interface IBorrowService
     {
-        bool BorrowBook(int bookId, int memberId);
+        (bool isSuccess, string message)  BorrowBook(int bookId, int memberId);
         double BorrowFine(int bookId, int memberId);
-        void DueDateManagement(int bookId, int memberId, DateTime dueDate);
-        void ReturnBook(int bookId, int memberId);
+        void DueDateManagement(int recordId);
+        (bool isSuccess, string message) ReturnBook(int recordId);
     }
 }

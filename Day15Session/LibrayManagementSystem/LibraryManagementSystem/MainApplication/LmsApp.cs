@@ -320,15 +320,15 @@ namespace LibraryManagementSystem.MainApplication
                         var bookId = Convert.ToInt32(Console.ReadLine());
                         var hasBeenEdited = _borrowService.BorrowBook(bookId, membershipId);
                         Console.Clear();
-                        if (hasBeenEdited)
+                        if (hasBeenEdited.isSuccess)
                         {
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Book borrowed successfully!");
+                            Console.WriteLine(hasBeenEdited.message);
                         }
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("The Book requested for the member with the id is not found! or book is not available at the moment!");
+                            Console.WriteLine(hasBeenEdited.message);
                         }
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
@@ -346,6 +346,22 @@ namespace LibraryManagementSystem.MainApplication
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "4":
+                        Console.WriteLine("Enter record id : ");
+                        var recordId = Convert.ToInt32(Console.ReadLine());
+                        var bookReturnResponse = _borrowService.ReturnBook(recordId);
+                        Console.Clear();
+                        if(bookReturnResponse.isSuccess)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(bookReturnResponse.message);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(bookReturnResponse.message);
+                        }
+                        Console.ResetColor();
+                        Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "0":
                         Console.Clear();

@@ -18,20 +18,13 @@ namespace LibraryManagementSystem.Services.BorrowService
             _memberRepository = memberRepository;
         }
 
-        public bool BorrowBook(int bookId, int memberId)
+        public (bool isSuccess, string message) BorrowBook(int bookId, int memberId)
         {
-            //***member id should be valid
-            //***book id should be valid
-            //***book count should be greater than 0
-            //**membership validity should be valid
-            //**same member id cannont take same book
-
             var memberList = _memberRepository.ViewAllMembers();
             var memberDetails = memberList.FirstOrDefault(m => m.MemberId == memberId);
-            if (memberDetails.ExpirationDate < DateTime.Now)
+            if (memberDetails?.ExpirationDate < DateTime.Now)
             {
-                //The member with this id has an expired membership, so they cannot borrow books
-                return false;
+                return (false, "The member with this id has an expired membership, so they cannot borrow books");
             }
             var bookList = _bookRepository.ViewAllBooks();
             bool doesMemberExist = memberList.Any(m => m.MemberId == memberId);
@@ -39,11 +32,10 @@ namespace LibraryManagementSystem.Services.BorrowService
             if(doesBookExist && doesMemberExist)
             {
                 var borrowList = _borrowRepository.ViewAllBorrowLists();
-                var hasMemberTakenSameBook = borrowList.Any(x => x.BookId == bookId & x.MemberId == memberId);
+                var hasMemberTakenSameBook = borrowList.Any(x => x.BookId == bookId & x.MemberId == memberId & x.Status == "Borrowed");
                 if(hasMemberTakenSameBook)
                 {
-                    //the member with this id has already taken the same book, so they cannot borrow the same book again
-                    return false;
+                    return (false, "The member with this id has already taken the same book, so they cannot borrow the same book again");
                 }
                 var bookDetails = bookList.FirstOrDefault(b => b.BookId == bookId);
                 var availableCopies = bookDetails?.AvailableCopies;
@@ -60,24 +52,21 @@ namespace LibraryManagementSystem.Services.BorrowService
                     if (isBookUpdated)
                     {
                         _borrowRepository.BorrowBook(bookId, memberId);
-                        return true;
+                        return (true, "Book borrowed successfully");
                     }
                     else
                     {
-                        //if the book count is not updated successfully, then the borrow process cannot be completed
-                        return false;
+                        return (false, "The book count is not updated successfully, so the borrow process cannot be completed");
                     }
                 }
                 else
                 {
-                    //the book with this id is not available, so the member cannot borrow this book
-                    return false;
+                    return (false, "The book with this id is not available, so the member cannot borrow this book");
                 }
             }
             else
             {
-                //either the book does not exist or the member does not exist, so the borrow process cannot be completed
-                return false;
+                return (false, "Either the book does not exist or the member does not exist, so the borrow process cannot be completed");
             }
         }
 
@@ -100,13 +89,54 @@ namespace LibraryManagementSystem.Services.BorrowService
             }
 
         }
-
-        public void DueDateManagement(int bookId, int memberId, DateTime dueDate)
+        
+        public (bool isSuccess, string message) ReturnBook(int recordId)
         {
-            throw new NotImplementedException();
+            var bookBorrowList = _borrowRepository.ViewAllBorrowLists();
+            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == "Borrowed");
+            if(bookBorrowDetails is null)
+            {
+                return (false, "No details found with the given record id or the book has already been returned.");
+            }
+            else
+            {
+                bookBorrowDetails.Status = "Returned";
+                bookBorrowDetails.ModifiedBy = "admin";
+                bookBorrowDetails.ModifiedDate =DateTime.Now;
+                bookBorrowDetails.ReturnedDate =DateTime.Now;
+                bookBorrowDetails.LateFine = BorrowFine(bookBorrowDetails.BookId, bookBorrowDetails.MemberId);
+                var returnBookResponse = _borrowRepository.ReturnBook(bookBorrowDetails);
+                if (returnBookResponse)
+                {
+                    var bookList = _bookRepository.ViewAllBooks();
+                    var bookDetails = bookList.FirstOrDefault(b => b.BookId == bookBorrowDetails.BookId);
+                    var availableCopies = bookDetails?.AvailableCopies??0;
+                    
+                    var bookToEdit = new Book
+                    {
+                        BookId = bookBorrowDetails.BookId,
+                        AvailableCopies = availableCopies + 1,
+                        ModifiedBy = "admin",
+                        ModifiedDate = DateTime.Now
+                    };
+                    var isBookUpdated = _bookRepository.UpdateBookCount(bookToEdit);
+                    if (isBookUpdated)
+                    {
+                        return (true, "Book returned successfully");
+                    }
+                    else
+                    {
+                        return (false, "The book count is not updated successfully, so the return process cannot be completed");
+                    }
+                }
+                else
+                {
+                    return (false, "Book return failed!");
+                }
+            }
         }
-
-        public void ReturnBook(int bookId, int memberId)
+        
+        public void DueDateManagement(int recordId)
         {
             throw new NotImplementedException();
         }

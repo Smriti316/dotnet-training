@@ -9,7 +9,7 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
 
         public void BorrowBook(int bookId, int memberId)
         {
-            var borrowDetails = GetAllBorrowsForOperation();
+            var borrowDetails = ViewAllBorrowLists();
             int maxRecordId = borrowDetails.Any() ? borrowDetails.Max(b => b.RecordId) : 0;
             var newBorrow = new Borrow
             {
@@ -27,19 +27,26 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
             File.WriteAllText(_connectionString, borrowString);
         }
 
-        public void ReturnBook(int bookId, int memberId)
+        public bool ReturnBook(Borrow borrow)
         {
-            return;
+            var borrowDetailList = ViewAllBorrowLists();
+            var borrowDetails = borrowDetailList.FirstOrDefault(x => x.RecordId == borrow.RecordId);
+            if (borrowDetails == null)
+            {
+                return false;
+            }
+            borrowDetails.Status = borrow.Status;
+            borrowDetails.ModifiedBy = borrow.ModifiedBy;
+            borrowDetails.ModifiedDate = borrow.ModifiedDate;
+            borrowDetails.ReturnedDate = borrow.ReturnedDate;
+            var borrowString = JsonSerializer.Serialize(borrowDetailList, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_connectionString, borrowString);
+            return true;
         }
-
-        public void DueDateManagement(int bookId, int memberId, DateTime newDueDate)
-        {
-            return;
-        }
-
+        
         public double BorrowFine(int bookId, int memberId, int noOfDaysExceeded)
         {
-            var borrowDetails = GetAllBorrowsForOperation();
+            var borrowDetails = ViewAllBorrowLists();
             var borrowRecord = borrowDetails.FirstOrDefault(b => b.BookId == bookId && b.MemberId == memberId && b.Status == "Borrowed");
             if (borrowRecord != null)
             {
@@ -55,23 +62,11 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
             return 0;
         }
 
-        private List<Borrow> GetAllBorrowsForOperation()
+        public void DueDateManagement(int recordId)
         {
-            if (!File.Exists(_connectionString))
-            {
-                return new List<Borrow>();
-            }
-
-            var borrowFromTable = File.ReadAllText(_connectionString);
-            if (string.IsNullOrWhiteSpace(borrowFromTable))
-            {
-                return new List<Borrow>();
-            }
-
-            var borrowDetails = JsonSerializer.Deserialize<List<Borrow>>(borrowFromTable);
-            return borrowDetails ?? new List<Borrow>();
+            return;
         }
-
+        
         public List<Borrow> ViewAllBorrowLists()
         {
             if (!File.Exists(_connectionString))
