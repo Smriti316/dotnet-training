@@ -5,7 +5,12 @@ namespace LibraryManagementSystem.Services.MemberService
 {
     public class MemberService : IMemberService
     {
-        private readonly MemberRepository _memberRepository = new MemberRepository();
+        private readonly IMemberRepository _memberRepository;
+
+        public MemberService(IMemberRepository memberRepository)
+        {
+            _memberRepository = memberRepository;
+        }
 
         public void AddMember(Member member)
         {
