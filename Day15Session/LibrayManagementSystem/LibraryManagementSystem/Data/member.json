@@ -13,5 +13,35 @@
     "CreatedBy": "admin",
     "ModifiedDate": "0001-01-01T00:00:00",
     "ModifiedBy": null
+  },
+  {
+    "MemberId": 2,
+    "MemberName": "Hari Nepal",
+    "Phone": "9841111111",
+    "Address": null,
+    "Email": null,
+    "JoinedDate": "2026-05-04T07:40:48.2519783+05:45",
+    "ExpirationDate": "2026-08-02T07:40:48.2524782+05:45",
+    "MembershipType": null,
+    "Status": null,
+    "CreatedDate": "2026-05-04T07:40:48.252932+05:45",
+    "CreatedBy": "admin",
+    "ModifiedDate": "0001-01-01T00:00:00",
+    "ModifiedBy": null
+  },
+  {
+    "MemberId": 3,
+    "MemberName": "Gopal Shrestha",
+    "Phone": "9834444444",
+    "Address": null,
+    "Email": null,
+    "JoinedDate": "2026-05-04T07:42:18.6957765+05:45",
+    "ExpirationDate": "2026-08-02T07:42:18.7063911+05:45",
+    "MembershipType": null,
+    "Status": null,
+    "CreatedDate": "2026-05-04T07:42:18.7065129+05:45",
+    "CreatedBy": "admin",
+    "ModifiedDate": "0001-01-01T00:00:00",
+    "ModifiedBy": null
   }
 ]

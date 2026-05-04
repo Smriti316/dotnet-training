@@ -9,6 +9,6 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
         double BorrowFine(int bookId, int memberId, int noOfDaysExceeded);
         bool ReturnBook(Borrow borrow);
         List<Borrow> ViewAllBorrowLists();
-        void DueDateManagement(int recordId);
+        bool DueDateManagement(Borrow borrow);
     }
 }

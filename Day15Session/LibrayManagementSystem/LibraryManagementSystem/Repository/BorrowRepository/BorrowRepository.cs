@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.Model;
+using System.Net;
 using System.Text.Json;
 
 namespace LibraryManagementSystem.Repository.BorrowRepository
@@ -62,11 +63,27 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
             return 0;
         }
 
-        public void DueDateManagement(int recordId)
+        public bool DueDateManagement(Borrow borrow)
         {
-            return;
+            var borrowDetails = ViewAllBorrowLists();
+            var borrowRecord = borrowDetails.FirstOrDefault(b => b.RecordId == borrow.RecordId);
+            if(borrowRecord == null)
+            {
+                return false;
+            }
+            else
+            {
+                borrowRecord.BookRenewedDate = borrow.BookRenewedDate;
+                borrowRecord.ModifiedDate = borrow.ModifiedDate;
+                borrowRecord.ModifiedBy = borrow.ModifiedBy;
+                borrowRecord.DueDate = borrow.DueDate;
+                var borrowString = JsonSerializer.Serialize(borrowDetails, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_connectionString, borrowString);
+                return true;
+            }
+
         }
-        
+
         public List<Borrow> ViewAllBorrowLists()
         {
             if (!File.Exists(_connectionString))

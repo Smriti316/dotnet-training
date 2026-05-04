@@ -204,7 +204,11 @@ namespace LibraryManagementSystem.MainApplication
                             Phone = phoneNo,
                         };
                         _memberService.AddMember(newMember);
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Member added successfully!");
+                        Console.ResetColor();
+                        Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "2":
                         Console.WriteLine("Enter member id for edit: ");
@@ -334,6 +338,22 @@ namespace LibraryManagementSystem.MainApplication
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "2":
+                        Console.WriteLine("Enter record id : ");
+                        var dueDateRecordId = Convert.ToInt32(Console.ReadLine());
+                        var dueDateResponse = _borrowService.DueDateManagement(dueDateRecordId);
+                        Console.Clear();
+                        if (dueDateResponse.isSuccess)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine(dueDateResponse.message);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(dueDateResponse.message);
+                        }
+                        Console.ResetColor();
+                        Console.WriteLine("/**********************************************/\n\n");
                         break;
                     case "3":
                         Console.WriteLine("Enter membership id : ");

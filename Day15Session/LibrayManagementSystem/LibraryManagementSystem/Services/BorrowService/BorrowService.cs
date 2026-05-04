@@ -100,11 +100,12 @@ namespace LibraryManagementSystem.Services.BorrowService
             }
             else
             {
+                double borrowFine = BorrowFine(bookBorrowDetails.BookId, bookBorrowDetails.MemberId);
                 bookBorrowDetails.Status = "Returned";
                 bookBorrowDetails.ModifiedBy = "admin";
                 bookBorrowDetails.ModifiedDate =DateTime.Now;
                 bookBorrowDetails.ReturnedDate =DateTime.Now;
-                bookBorrowDetails.LateFine = BorrowFine(bookBorrowDetails.BookId, bookBorrowDetails.MemberId);
+                bookBorrowDetails.LateFine = borrowFine;
                 var returnBookResponse = _borrowRepository.ReturnBook(bookBorrowDetails);
                 if (returnBookResponse)
                 {
@@ -135,10 +136,31 @@ namespace LibraryManagementSystem.Services.BorrowService
                 }
             }
         }
-        
-        public void DueDateManagement(int recordId)
+
+        public (bool isSuccess, string message) DueDateManagement(int recordId)
         {
-            throw new NotImplementedException();
+            var bookBorrowList = _borrowRepository.ViewAllBorrowLists();
+            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == "Borrowed" & x.DueDate <= DateTime.Now);
+            if (bookBorrowDetails is null)
+            {
+                return (false, "The record id does not exist or the book has already been returned or the due date has crossed.");
+            }
+            else
+            {
+                bookBorrowDetails.BookRenewedDate = DateTime.Now;
+                bookBorrowDetails.DueDate = DateTime.Now.AddDays(15);
+                bookBorrowDetails.ModifiedBy = "admin";
+                bookBorrowDetails.ModifiedDate = DateTime.Now;
+                var dueDateManagementResponse = _borrowRepository.DueDateManagement(bookBorrowDetails);
+                if (dueDateManagementResponse)
+                {
+                    return (true, "Due date renewed successfully");
+                }
+                else
+                {
+                    return (false, "Due date renewal failed!");
+                }
+            }
         }
     }
 }
