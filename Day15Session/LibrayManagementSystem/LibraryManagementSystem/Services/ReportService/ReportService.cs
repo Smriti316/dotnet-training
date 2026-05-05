@@ -46,37 +46,27 @@ namespace LibraryManagementSystem.Services.ReportService
                     }
                 ).ToList();
 
-            foreach(var details in response.Distinct())
+            foreach (var details in response.Distinct())
             {
-                List<BorrowedBookDetail> borrowedBookDetails = new List<BorrowedBookDetail>();
-                var memberWiseBookDetails = borrowedBooks.Where(x => x.MemberId == details.MemberId).Select(x=>x.BookId).ToList();
+                var borrowedBookDetails =
+                    borrowedBooks.Where(x => x.MemberId == details.MemberId).ToList();
 
-                //var bookName = (
-                //   from b in bookDetails
-                //   join bb in borrowedBooks on b.BookId equals bb.BookId
-                //   select new
-                //   {
-                //       bb.BookId,
-                //       b.Name
-                //   }).ToList();
-
-                foreach (var bookId in memberWiseBookDetails)
-                {
-                    borrowedBookDetails.Add(new BorrowedBookDetail
+                List<BorrowedBookDetail> bookBorrowedDetails = (
+                    from b in borrowedBookDetails
+                    join bk in bookDetails on b.BookId equals bk.BookId
+                    select new BorrowedBookDetail
                     {
-                        BookId = bookId,
-                        BookName = bookDetails.Where(x => x.BookId == bookId).Select(x => x.Name).FirstOrDefault(),
-                        BookIsbn = bookDetails.Where(x => x.BookId == bookId).Select(x => x.Isbn).FirstOrDefault()
-                    });
-                }
-
+                        BookId = bk.BookId,
+                        BookName = bk.Name,
+                        BookIsbn = bk.Isbn
+                    }).ToList();
 
                 BorrowedReport report = new BorrowedReport
                 {
                     MemberName = details.MemberName,
                     MembershipType = details.MembershipType,
                     MemberPhoneNumber = details.Phone,
-                    BorrowedBookDetails = borrowedBookDetails
+                    BorrowedBookDetails = bookBorrowedDetails
                 };
                 borrowedReports.Add(report);
             }
