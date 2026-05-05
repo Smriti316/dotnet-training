@@ -1,9 +1,9 @@
-﻿using LibraryManagementSystem.Model;
+﻿using LibraryManagementSystem.Enums;
+using LibraryManagementSystem.Model;
 using LibraryManagementSystem.Model.Report;
 using LibraryManagementSystem.Repository.BookRepository;
 using LibraryManagementSystem.Repository.BorrowRepository;
 using LibraryManagementSystem.Repository.MemberRepository;
-using Microsoft.VisualBasic;
 
 namespace LibraryManagementSystem.Services.ReportService
 {
@@ -83,7 +83,7 @@ namespace LibraryManagementSystem.Services.ReportService
                 from b in borrowedBooks
                 join m in memberDetails on b.MemberId equals m.MemberId
                 join bk in bookDetails on b.BookId equals bk.BookId
-                where b.Status != "Returned" & b.DueDate <= DateTime.Now
+                where b.Status != BorrowedStatusEnum.Returned & b.DueDate <= DateTime.Now
                 select new DueDateReport
                 {
                     BookName = bk.Name,

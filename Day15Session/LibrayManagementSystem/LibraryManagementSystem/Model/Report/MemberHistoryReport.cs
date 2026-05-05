@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.Model.Report
+﻿using LibraryManagementSystem.Enums;
+
+namespace LibraryManagementSystem.Model.Report
 {
     public class MemberHistoryReport
     {
@@ -19,7 +21,7 @@
         public DateTime DueDate { get; set; }
         public DateTime ReturnedDate { get; set; }
         public double LateFine { get; set; }
-        public string Status { get; set; }
+        public BorrowedStatusEnum Status { get; set; }
     }
 
 

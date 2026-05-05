@@ -1,6 +1,12 @@
 ﻿namespace LibraryManagementSystem.Enums
 {
-    internal class BookOperationEnum
+    public enum BookOperationEnum
     {
+        Exit,
+        AddBook,
+        EditBook,
+        DeleteBook,
+        SearchBooks,
+        ViewAllBooks
     }
 }

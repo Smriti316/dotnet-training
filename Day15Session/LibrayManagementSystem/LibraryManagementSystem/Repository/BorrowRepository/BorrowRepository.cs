@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.Model;
 using System.Net;
 using System.Text.Json;
+using LibraryManagementSystem.Enums;
 
 namespace LibraryManagementSystem.Repository.BorrowRepository
 {
@@ -19,7 +20,7 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
                 MemberId = memberId,
                 IssuedDate = DateTime.Now,
                 DueDate = DateTime.Now.AddDays(15), // Assuming a 14-day loan period
-                Status = "Borrowed",
+                Status = BorrowedStatusEnum.Borrowed,
                 CreatedDate = DateTime.Now,
                 CreatedBy = "admin"
             };
@@ -48,7 +49,7 @@ namespace LibraryManagementSystem.Repository.BorrowRepository
         public double BorrowFine(int bookId, int memberId, int noOfDaysExceeded)
         {
             var borrowDetails = ViewAllBorrowLists();
-            var borrowRecord = borrowDetails.FirstOrDefault(b => b.BookId == bookId && b.MemberId == memberId && b.Status == "Borrowed");
+            var borrowRecord = borrowDetails.FirstOrDefault(b => b.BookId == bookId && b.MemberId == memberId && b.Status == BorrowedStatusEnum.Borrowed);
             if (borrowRecord != null)
             {
                 double fineRate = 0.50;

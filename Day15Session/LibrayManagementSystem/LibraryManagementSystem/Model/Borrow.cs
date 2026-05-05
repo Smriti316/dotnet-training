@@ -1,3 +1,4 @@
+using LibraryManagementSystem.Enums;
 using LibraryManagementSystem.Model.Shared;
 
 namespace LibraryManagementSystem.Model;
@@ -11,7 +12,7 @@ public class Borrow : LmsShared
     public DateTime DueDate { get; set; }
     public double LateFine { get; set; }
     public DateTime ReturnedDate { get; set; }
-    public string Status { get; set; }
+    public BorrowedStatusEnum Status { get; set; }
     public DateTime BookRenewedDate { get; set; }
     public string ReceivedBy { get; set; }
     public string Remarks { get; set; }   

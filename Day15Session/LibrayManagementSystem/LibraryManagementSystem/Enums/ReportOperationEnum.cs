@@ -1,6 +1,10 @@
 ﻿namespace LibraryManagementSystem.Enums
 {
-    internal class ReportOperationEnum
+    public enum ReportOperationEnum
     {
+        Exit,
+        BookBorrowedDetails,
+        BookDueReport,
+        MemberReport
     }
 }

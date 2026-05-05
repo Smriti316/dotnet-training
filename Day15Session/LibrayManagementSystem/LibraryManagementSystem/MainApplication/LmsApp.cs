@@ -84,10 +84,10 @@ namespace LibraryManagementSystem.MainApplication
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("/***************************************************/");
                 Console.WriteLine("Please select a menu to proceed: ");
-                var operationMethodChoice = Console.ReadLine();
+                var operationMethodChoice = (BookOperationEnum)Convert.ToInt32(Console.ReadLine());
                 switch (operationMethodChoice)
                 {
-                    case "1":
+                    case BookOperationEnum.AddBook:
                         Console.WriteLine("Enter book name: ");
                         var bookName = Console.ReadLine();
                         Console.WriteLine("Enter book author: ");
@@ -100,7 +100,7 @@ namespace LibraryManagementSystem.MainApplication
                         _bookService.AddBooks(newBook);
                         Console.WriteLine("Book added successfully!");
                         break;
-                    case "2":
+                    case BookOperationEnum.EditBook:
                         Console.WriteLine("Enter book id for edit: ");
                         var bookId = Console.ReadLine();
                         Console.WriteLine("Enter updated book name: ");
@@ -125,7 +125,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "3":
+                    case BookOperationEnum.DeleteBook:
                         Console.WriteLine("Enter book id for delete: ");
                         var deleteBookId = Console.ReadLine();
                         var hasBookBeenDeleted = _bookService.DeleteBooks(Convert.ToInt32(deleteBookId));
@@ -143,7 +143,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "4":
+                    case BookOperationEnum.SearchBooks:
                         Console.Clear();
                         Console.WriteLine("Enter book name for search: ");
                         var searchBookName = Console.ReadLine();
@@ -161,7 +161,7 @@ namespace LibraryManagementSystem.MainApplication
                         }
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "5":
+                    case BookOperationEnum.ViewAllBooks:
                         Console.Clear();
                         var bookList = _bookService.ViewAllBooks();
                         foreach (var book in bookList)
@@ -170,7 +170,7 @@ namespace LibraryManagementSystem.MainApplication
                         }
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "0":
+                    case BookOperationEnum.Exit:
                         Console.Clear();
                         Console.WriteLine("Exiting Book Operations...\n\n\n");
                         return;
@@ -194,10 +194,10 @@ namespace LibraryManagementSystem.MainApplication
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("/***************************************************/");
                 Console.WriteLine("Please select a menu to proceed: ");
-                var operationMethodChoice = Console.ReadLine();
+                var operationMethodChoice = (MemberOperationEnum)Convert.ToInt32(Console.ReadLine());
                 switch (operationMethodChoice)
                 {
-                    case "1":
+                    case MemberOperationEnum.AddMember:
                         Console.WriteLine("Enter member name: ");
                         var memberName = Console.ReadLine();
                         Console.WriteLine("Enter member's phone number: ");
@@ -214,7 +214,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "2":
+                    case MemberOperationEnum.EditMember:
                         Console.WriteLine("Enter member id for edit: ");
                         var memberId = Console.ReadLine();
                         Console.WriteLine("Enter updated member name: ");
@@ -239,7 +239,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "3":
+                    case MemberOperationEnum.DeleteMember:
                         Console.WriteLine("Enter membership id for delete: ");
                         var deleteMemberId = Console.ReadLine();
                         var hasMemberBeenDeleted = _memberService.DeleteMember(Convert.ToInt32(deleteMemberId));
@@ -257,7 +257,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "4":
+                    case MemberOperationEnum.SearchMembers:
                         Console.Clear();
                         Console.WriteLine("Enter member name for search: ");
                         var searchMemberName = Console.ReadLine();
@@ -275,7 +275,7 @@ namespace LibraryManagementSystem.MainApplication
                         }
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "5":
+                    case MemberOperationEnum.ViewAllMembers:
                         Console.Clear();
                         var memberList = _memberService.ViewAllMembers();
                         foreach (var member in memberList)
@@ -284,7 +284,7 @@ namespace LibraryManagementSystem.MainApplication
                         }
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "6":
+                    case MemberOperationEnum.RenewMembership:
                         Console.WriteLine("Enter membership id for membership renew: ");
                         var renewMemberId = Console.ReadLine();
                         Member renewMember = new Member
@@ -296,7 +296,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.WriteLine("Membership renewed successfully!");
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "0":
+                    case MemberOperationEnum.Exit:
                         Console.Clear();
                         Console.WriteLine("Exiting Member Operations...\n\n\n");
                         return;
@@ -318,10 +318,10 @@ namespace LibraryManagementSystem.MainApplication
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("/***************************************************/");
                 Console.WriteLine("Please select a menu to proceed: ");
-                var operationMethodChoice = Console.ReadLine();
+                var operationMethodChoice = (BorrowOperationEnum)Convert.ToInt32(Console.ReadLine());
                 switch (operationMethodChoice)
                 {
-                    case "1":
+                    case BorrowOperationEnum.BorrowBook:
                         Console.WriteLine("Enter membership id : ");
                         var membershipId = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Enter book id : ");
@@ -341,7 +341,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "2":
+                    case BorrowOperationEnum.ManageDueDate:
                         Console.WriteLine("Enter record id : ");
                         var dueDateRecordId = Convert.ToInt32(Console.ReadLine());
                         var dueDateResponse = _borrowService.DueDateManagement(dueDateRecordId);
@@ -359,7 +359,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "3":
+                    case BorrowOperationEnum.BorrowFine:
                         Console.WriteLine("Enter membership id : ");
                         var membershipIdForFine = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Enter book id : ");
@@ -369,7 +369,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.WriteLine($"Fine amount is {fineAmount}");
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "4":
+                    case BorrowOperationEnum.ReturnBook:
                         Console.WriteLine("Enter record id : ");
                         var recordId = Convert.ToInt32(Console.ReadLine());
                         var bookReturnResponse = _borrowService.ReturnBook(recordId);
@@ -387,7 +387,7 @@ namespace LibraryManagementSystem.MainApplication
                         Console.ResetColor();
                         Console.WriteLine("/**********************************************/\n\n");
                         break;
-                    case "0":
+                    case BorrowOperationEnum.Exit:
                         Console.Clear();
                         Console.WriteLine("Exiting Book Operations...\n\n\n");
                         return;
@@ -408,10 +408,10 @@ namespace LibraryManagementSystem.MainApplication
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("/***************************************************/");
                 Console.WriteLine("Please select a menu to proceed: ");
-                var operationMethodChoice = Console.ReadLine();
+                var operationMethodChoice = (ReportOperationEnum)Convert.ToInt32(Console.ReadLine());
                 switch (operationMethodChoice)
                 {
-                    case "1":
+                    case ReportOperationEnum.BookBorrowedDetails:
                         var reportFilter = new BorrowedReportFilter();
                         Console.WriteLine("Enter member id for report filter (optional): ");
                         var memberIdInput = Console.ReadLine();
@@ -425,13 +425,13 @@ namespace LibraryManagementSystem.MainApplication
                         Console.WriteLine(JsonSerializer.Serialize(bookBorrowedDetails));
                         Console.WriteLine("/***************************************************/");
                         break;
-                    case "2":
+                    case ReportOperationEnum.BookDueReport:
                         var dueDateReport = _reportService.GetOverDueBooksReport();
                         Console.Clear();
                         Console.WriteLine(JsonSerializer.Serialize(dueDateReport));
                         Console.WriteLine("Exiting Book Operations...\n\n\n");
                         break;
-                    case "3":
+                    case ReportOperationEnum.MemberReport:
                         Console.WriteLine("Enter member id for member report: ");
                         var memberId = Convert.ToInt32(Console.ReadLine());
                         var memberReport = _reportService.MemberHistoryReport(memberId);
@@ -453,7 +453,7 @@ namespace LibraryManagementSystem.MainApplication
                         }
                         Console.WriteLine("Exiting Book Operations...\n\n\n");
                         break;
-                    case "0":
+                    case ReportOperationEnum.Exit:
                         Console.Clear();
                         Console.WriteLine("Exiting Book Operations...\n\n\n");
                         return;

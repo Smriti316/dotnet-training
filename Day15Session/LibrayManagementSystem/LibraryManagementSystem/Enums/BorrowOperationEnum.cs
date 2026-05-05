@@ -1,6 +1,11 @@
 ﻿namespace LibraryManagementSystem.Enums
 {
-    internal class BorrowOperationEnum
+    public enum BorrowOperationEnum
     {
+        Exit,
+        BorrowBook,
+        ManageDueDate,
+        BorrowFine,
+        ReturnBook
     }
 }

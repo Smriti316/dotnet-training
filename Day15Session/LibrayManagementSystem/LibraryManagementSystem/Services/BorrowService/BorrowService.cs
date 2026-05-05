@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Model;
+﻿using LibraryManagementSystem.Enums;
+using LibraryManagementSystem.Model;
 using LibraryManagementSystem.Repository.BookRepository;
 using LibraryManagementSystem.Repository.BorrowRepository;
 using LibraryManagementSystem.Repository.MemberRepository;
@@ -32,7 +33,7 @@ namespace LibraryManagementSystem.Services.BorrowService
             if(doesBookExist && doesMemberExist)
             {
                 var borrowList = _borrowRepository.ViewAllBorrowLists();
-                var hasMemberTakenSameBook = borrowList.Any(x => x.BookId == bookId & x.MemberId == memberId & x.Status == "Borrowed");
+                var hasMemberTakenSameBook = borrowList.Any(x => x.BookId == bookId & x.MemberId == memberId & x.Status == BorrowedStatusEnum.Borrowed);
                 if(hasMemberTakenSameBook)
                 {
                     return (false, "The member with this id has already taken the same book, so they cannot borrow the same book again");
@@ -93,7 +94,7 @@ namespace LibraryManagementSystem.Services.BorrowService
         public (bool isSuccess, string message) ReturnBook(int recordId)
         {
             var bookBorrowList = _borrowRepository.ViewAllBorrowLists();
-            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == "Borrowed");
+            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == BorrowedStatusEnum.Borrowed);
             if(bookBorrowDetails is null)
             {
                 return (false, "No details found with the given record id or the book has already been returned.");
@@ -101,7 +102,7 @@ namespace LibraryManagementSystem.Services.BorrowService
             else
             {
                 double borrowFine = BorrowFine(bookBorrowDetails.BookId, bookBorrowDetails.MemberId);
-                bookBorrowDetails.Status = "Returned";
+                bookBorrowDetails.Status = BorrowedStatusEnum.Returned;
                 bookBorrowDetails.ModifiedBy = "admin";
                 bookBorrowDetails.ModifiedDate =DateTime.Now;
                 bookBorrowDetails.ReturnedDate =DateTime.Now;
@@ -140,7 +141,7 @@ namespace LibraryManagementSystem.Services.BorrowService
         public (bool isSuccess, string message) DueDateManagement(int recordId)
         {
             var bookBorrowList = _borrowRepository.ViewAllBorrowLists();
-            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == "Borrowed" & x.DueDate <= DateTime.Now);
+            var bookBorrowDetails = bookBorrowList.FirstOrDefault(x => x.RecordId == recordId & x.Status == BorrowedStatusEnum.Borrowed & x.DueDate <= DateTime.Now);
             if (bookBorrowDetails is null)
             {
                 return (false, "The record id does not exist or the book has already been returned or the due date has crossed.");
