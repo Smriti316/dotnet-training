@@ -3,6 +3,7 @@ using LibraryManagementSystem.Model.Report;
 using LibraryManagementSystem.Repository.BookRepository;
 using LibraryManagementSystem.Repository.BorrowRepository;
 using LibraryManagementSystem.Repository.MemberRepository;
+using Microsoft.VisualBasic;
 
 namespace LibraryManagementSystem.Services.ReportService
 {
@@ -73,14 +74,79 @@ namespace LibraryManagementSystem.Services.ReportService
             return borrowedReports;
         }
 
-        public List<DueDateReport> GetOverDueBooksReport(DateOnly currentDate)
+        public List<DueDateReport> GetOverDueBooksReport()
         {
-            throw new NotImplementedException();
+            var borrowedBooks = _borrowRepository.ViewAllBorrowLists();
+            var memberDetails = _memberRepository.ViewAllMembers();
+            var bookDetails = _bookRepository.ViewAllBooks();
+            var dueDateReport = (
+                from b in borrowedBooks
+                join m in memberDetails on b.MemberId equals m.MemberId
+                join bk in bookDetails on b.BookId equals bk.BookId
+                where b.Status != "Returned" & b.DueDate <= DateTime.Now
+                select new DueDateReport
+                {
+                    BookName = bk.Name,
+                    MemberName = m.MemberName,
+                    MemberPhoneNumber = m.Phone,
+                    IssuedDate = DateOnly.FromDateTime(b.CreatedDate),
+                    DueDays = (DateTime.Now - b.DueDate).Days,
+                    TotalFine = (DateTime.Now - b.DueDate).Days * 0.5
+                }).ToList();
+            return dueDateReport;
         }
 
-        public List<MemberHistoryReport> MemberHistoryReport(int memberId)
+        public MemberHistoryReport MemberHistoryReport(int memberId)
         {
-            throw new NotImplementedException();
+            var memberHistoryReport = new MemberHistoryReport();
+            var borrowedBooks = _borrowRepository.ViewAllBorrowLists().Where(x => x.MemberId == memberId).ToList();
+            var memberDetails = _memberRepository.ViewAllMembers().FirstOrDefault(x => x.MemberId == memberId);
+            var bookDetails = _bookRepository.ViewAllBooks();
+
+            if (memberDetails == null)
+            {
+                return memberHistoryReport;
+            }
+
+            //var memberHistoryReport = new MemberHistoryReport
+            //{
+            //    MemberName = memberDetails.MemberName,
+            //    MemberPhoneNumber = memberDetails.Phone,
+            //    JoinedDate = memberDetails.CreatedDate,
+            //    MemberEmail = memberDetails.Email,
+            //    MemberShipType = memberDetails.MembershipType,
+            //    MemberStatus = memberDetails.Status
+            //};
+            memberHistoryReport.MemberName = memberDetails.MemberName;
+            memberHistoryReport.MemberPhoneNumber = memberDetails.Phone;
+            memberHistoryReport.JoinedDate = memberDetails.CreatedDate;
+            memberHistoryReport.MemberEmail = memberDetails.Email;
+            memberHistoryReport.MemberShipType = memberDetails.MembershipType;
+            memberHistoryReport.MemberStatus = memberDetails.Status;
+
+
+            //public string BookName { get; set; }
+            //public DateTime IssuedDate { get; set; }
+            //public DateTime DueDate { get; set; }
+            //public DateTime ReturnedDate { get; set; }
+            //public double LateFine { get; set; }
+            //public string Status { get; set; }
+
+            List<MemberBookHistory> memberBookList = (
+                    from b in borrowedBooks
+                    join bk in bookDetails on b.BookId equals bk.BookId
+                    select new MemberBookHistory
+                    {
+                        BookName = bk.Name,
+                        IssuedDate = b.CreatedDate,
+                        DueDate = b.DueDate,
+                        ReturnedDate = b.ReturnedDate,
+                        LateFine = b.LateFine,
+                        Status = b.Status
+                    }).ToList();
+
+            memberHistoryReport.MemberBookHistories = memberBookList;
+            return memberHistoryReport;
         }
     }
 }

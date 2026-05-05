@@ -403,6 +403,8 @@ namespace LibraryManagementSystem.MainApplication
             {
                 Console.WriteLine("--------SUB MENU-------");
                 Console.WriteLine("1. Book Borrowed Details");
+                Console.WriteLine("2. Book Due Report");
+                Console.WriteLine("3. Member Report");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("/***************************************************/");
                 Console.WriteLine("Please select a menu to proceed: ");
@@ -422,6 +424,34 @@ namespace LibraryManagementSystem.MainApplication
 
                         Console.WriteLine(JsonSerializer.Serialize(bookBorrowedDetails));
                         Console.WriteLine("/***************************************************/");
+                        break;
+                    case "2":
+                        var dueDateReport = _reportService.GetOverDueBooksReport();
+                        Console.Clear();
+                        Console.WriteLine(JsonSerializer.Serialize(dueDateReport));
+                        Console.WriteLine("Exiting Book Operations...\n\n\n");
+                        break;
+                    case "3":
+                        Console.WriteLine("Enter member id for member report: ");
+                        var memberId = Convert.ToInt32(Console.ReadLine());
+                        var memberReport = _reportService.MemberHistoryReport(memberId);
+                        Console.Clear();
+                        if(string.IsNullOrEmpty(memberReport.MemberName))
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("The member with the member id does not exist!");
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            //Console.WriteLine($"Member Name: {memberReport.MemberName}");
+                            //foreach(var details in memberReport.MemberBookHistories)
+                            //{
+                            //    Console.WriteLine($"Book Name: {details.BookName}");
+                            //}
+                            Console.WriteLine(JsonSerializer.Serialize(memberReport));
+                        }
+                        Console.WriteLine("Exiting Book Operations...\n\n\n");
                         break;
                     case "0":
                         Console.Clear();

@@ -4,7 +4,7 @@
     {
         public string MemberName { get; set; }
         public string MemberPhoneNumber { get; set; }
-        public string JoinedDate { get; set; }
+        public DateTime JoinedDate { get; set; }
         public string MemberEmail { get; set; }
         public string MemberShipType { get; set; }
         public string MemberStatus { get; set; }

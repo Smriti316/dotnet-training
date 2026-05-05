@@ -7,7 +7,7 @@ namespace LibraryManagementSystem.Services.ReportService
     {
         List<Borrow> GetCurrentlyBorrowedBooksReport(BorrowedReportFilter borrowedReportFilter);
         List<BorrowedReport> GetBorrowedBooksReport(BorrowedReportFilter borrowedReportFilter);
-        List<DueDateReport> GetOverDueBooksReport(DateOnly currentDate);
-        List<MemberHistoryReport> MemberHistoryReport(int memberId);
+        List<DueDateReport> GetOverDueBooksReport();
+        MemberHistoryReport MemberHistoryReport(int memberId);
     }
 }
