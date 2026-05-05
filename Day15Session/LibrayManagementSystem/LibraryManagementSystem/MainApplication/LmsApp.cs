@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.Model;
+﻿using LibraryManagementSystem.Enums;
+using LibraryManagementSystem.Model;
 using LibraryManagementSystem.Model.Report;
 using LibraryManagementSystem.Services.BookService;
 using LibraryManagementSystem.Services.BorrowService;
@@ -33,22 +34,22 @@ namespace LibraryManagementSystem.MainApplication
             {
                 ShowMenu();
                 Console.WriteLine("Please select a menu to proceed: ");
-                var operationChoice = Console.ReadLine();
+                var operationChoice =(LibraryOperationEnum)Convert.ToInt32(Console.ReadLine());
                 switch (operationChoice)
                 {
-                    case "1":
+                    case LibraryOperationEnum.Book:
                         ShowBookOperation();
                         break;
-                    case "2":
+                    case LibraryOperationEnum.Member:
                         ShowMemberOperation();
                         break;
-                    case "3":
+                    case LibraryOperationEnum.Borrow:
                         ShowBorrowOperation();
                         break;
-                    case "4":
+                    case LibraryOperationEnum.Report:
                         ShowReportOperation();
                         break;
-                    case "0":
+                    case LibraryOperationEnum.Exit:
                         exitRequested = true;
                         Console.WriteLine("You have exited the system!");
                         break;
@@ -396,7 +397,6 @@ namespace LibraryManagementSystem.MainApplication
                 }
             }
         }
-
         private void ShowReportOperation()
         {
             while (true)
